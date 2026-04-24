@@ -1,4 +1,4 @@
-// ========== WEAPONS DATABASE (ALL 9 WEAPONS) ==========
+// ========== WEAPONS DATABASE ==========
 const weapons = [
     { id: "m4", name: "M4 SOPMOD Block II", price: 39800, drop: 8.3, dmg: 42, recoil: 68, ergo: 72 },
     { id: "ak12", name: "AK-12", price: 17900, drop: 22.0, dmg: 48, recoil: 74, ergo: 61 },
@@ -11,58 +11,60 @@ const weapons = [
     { id: "vector", name: "KRISS Vector", price: 39800, drop: 6.7, dmg: 36, recoil: 42, ergo: 82 }
 ];
 
-// ========== ATTACHMENTS DATABASE (ALL PARTS) ==========
+// ========== ATTACHMENTS DATABASE ==========
 const attachments = {
     optic: [
-        { name: "EOTech EXPS3", price: 8700, drop: 18.2, recoil: -2, ergo: 3, type: "pro" },
-        { name: "Vortex Razor HD", price: 14200, drop: 7.4, recoil: -5, ergo: 2, type: "pro" },
-        { name: "Trijicon ACOG", price: 9900, drop: 9.1, recoil: -2, ergo: 1, type: "popular" },
-        { name: "Kobra Red Dot", price: 3100, drop: 25, recoil: -1, ergo: 1, type: "popular" },
-        { name: "Holosun HS510C", price: 5200, drop: 15.3, recoil: -1, ergo: 2, type: "custom" }
+        { name: "EOTech EXPS3", price: 8700, drop: 18.2, recoil: -2, ergo: 3, tier: "pro" },
+        { name: "Vortex Razor HD", price: 14200, drop: 7.4, recoil: -5, ergo: 2, tier: "pro" },
+        { name: "Trijicon ACOG", price: 9900, drop: 9.1, recoil: -2, ergo: 1, tier: "popular" },
+        { name: "Kobra Red Dot", price: 3100, drop: 25, recoil: -1, ergo: 1, tier: "popular" },
+        { name: "Holosun HS510C", price: 5200, drop: 15.3, recoil: -1, ergo: 2, tier: "custom" }
     ],
     muzzle: [
-        { name: "Raptor 556 SD", price: 14300, drop: 4.2, recoil: -12, ergo: -2, type: "pro" },
-        { name: "SureFire WarComp", price: 5200, drop: 12.8, recoil: -6, ergo: 0, type: "popular" },
-        { name: "ASR Brake", price: 3800, drop: 15, recoil: -4, ergo: 0, type: "popular" },
-        { name: "SRVV Jet Brake", price: 6800, drop: 8.5, recoil: -8, ergo: -1, type: "pro" },
-        { name: "Flash Hider", price: 1200, drop: 35, recoil: -2, ergo: 0, type: "custom" }
+        { name: "Raptor 556 SD", price: 14300, drop: 4.2, recoil: -12, ergo: -2, tier: "pro" },
+        { name: "SureFire WarComp", price: 5200, drop: 12.8, recoil: -6, ergo: 0, tier: "popular" },
+        { name: "ASR Brake", price: 3800, drop: 15, recoil: -4, ergo: 0, tier: "popular" },
+        { name: "SRVV Jet Brake", price: 6800, drop: 8.5, recoil: -8, ergo: -1, tier: "pro" },
+        { name: "Flash Hider", price: 1200, drop: 35, recoil: -2, ergo: 0, tier: "custom" }
     ],
     grip: [
-        { name: "AFG Angled", price: 4200, drop: 22, recoil: -5, ergo: 4, type: "pro" },
-        { name: "RVG Vertical", price: 2800, drop: 28, recoil: -4, ergo: 2, type: "popular" },
-        { name: "EMOD Grip", price: 3900, drop: 11, recoil: -5, ergo: 3, type: "pro" },
-        { name: "BCM Gunfighter", price: 2300, drop: 19, recoil: -3, ergo: 0, type: "custom" }
+        { name: "AFG Angled", price: 4200, drop: 22, recoil: -5, ergo: 4, tier: "pro" },
+        { name: "RVG Vertical", price: 2800, drop: 28, recoil: -4, ergo: 2, tier: "popular" },
+        { name: "EMOD Grip", price: 3900, drop: 11, recoil: -5, ergo: 3, tier: "pro" },
+        { name: "BCM Gunfighter", price: 2300, drop: 19, recoil: -3, ergo: 0, tier: "custom" }
     ],
     stock: [
-        { name: "Magpul CTR", price: 5600, drop: 12, recoil: -3, ergo: 6, type: "pro" },
-        { name: "UBR Gen2", price: 7200, drop: 6.5, recoil: -5, ergo: 4, type: "pro" },
-        { name: "Skeleton Stock", price: 3400, drop: 14, recoil: -2, ergo: 5, type: "custom" },
-        { name: "Standard Stock", price: 0, drop: 85, recoil: 0, ergo: 0, type: "popular" }
+        { name: "Magpul CTR", price: 5600, drop: 12, recoil: -3, ergo: 6, tier: "pro" },
+        { name: "UBR Gen2", price: 7200, drop: 6.5, recoil: -5, ergo: 4, tier: "pro" },
+        { name: "Skeleton Stock", price: 3400, drop: 14, recoil: -2, ergo: 5, tier: "custom" },
+        { name: "Standard Stock", price: 0, drop: 85, recoil: 0, ergo: 0, tier: "popular" }
     ],
     mag: [
-        { name: "PMAG 30", price: 1200, drop: 38, recoil: 0, ergo: 1, type: "popular" },
-        { name: "Drum Mag 60", price: 3400, drop: 7.8, recoil: 0, ergo: -3, type: "custom" },
-        { name: "Lancer L5", price: 1800, drop: 22, recoil: 0, ergo: 0, type: "pro" }
+        { name: "PMAG 30", price: 1200, drop: 38, recoil: 0, ergo: 1, tier: "popular" },
+        { name: "Drum Mag 60", price: 3400, drop: 7.8, recoil: 0, ergo: -3, tier: "custom" },
+        { name: "Lancer L5", price: 1800, drop: 22, recoil: 0, ergo: 0, tier: "pro" }
     ]
 };
 
 // ========== GEAR DATABASE ==========
 const gear = [
     { name: "RPC Carrier", price: 28500, drop: 7.2, loc: "YBL-1 Bunker" },
-    { name: "JPC 2.0", price: 18400, drop: 14.5, loc: "Ban Pa/Tiger Bay" },
-    { name: "Ops-Core FAST", price: 22300, drop: 6.8, loc: "Midnight Sapphire" },
+    { name: "JPC 2.0 Plate Carrier", price: 18400, drop: 14.5, loc: "Ban Pa / Tiger Bay" },
+    { name: "Ops-Core FAST Helmet", price: 22300, drop: 6.8, loc: "Midnight Sapphire" },
     { name: "PVS-31 NVGs", price: 32200, drop: 2.9, loc: "Night Boss" },
+    { name: "GPNVG-18 Quad", price: 54600, drop: 1.2, loc: "Secret Bunker" },
     { name: "Raptor Suppressor", price: 14300, drop: 4.2, loc: "Midnight Sapphire" },
-    { name: "AFG Grip", price: 4200, drop: 22, loc: "Ban Pa" }
+    { name: "AFG Angled Grip", price: 4200, drop: 22, loc: "Ban Pa" },
+    { name: "M855A1 Ammo", price: 3400, drop: 27.5, loc: "YBL-1" }
 ];
 
-// ========== ZONES DATA ==========
+// ========== ZONES ==========
 const zones = {
     ybl: { name: "YBL-1 Bunker", faction: "Crimson/Mithras", loot: "M4 SOPMOD (8.3%), RPC (7.2%), M855A1 (27%)", coords: { x: 18, y: 22, w: 22, h: 12 } },
-    tiger: { name: "Tiger Bay Marina", faction: "Lamang", loot: "Ops-Core FAST (6%), EOTech (18%), JPC 2.0 (10%)", coords: { x: 48, y: 38, w: 19, h: 10 } },
-    banpa: { name: "Ban Pa", faction: "Mithras", loot: "AFG Grip (22%), AK-12 (22%), JPC 2.0 (14.5%)", coords: { x: 72, y: 52, w: 17, h: 10 } },
-    fort: { name: "Fort Narith", faction: "Crimson", loot: "DDM4 (3.5%), SRVV Brake (8.5%), Repair Kits", coords: { x: 12, y: 68, w: 20, h: 11 } },
-    midnight: { name: "Midnight Sapphire", faction: "Elite Guard", loot: "NVGs (2.9%), Raptor Suppressor (4.2%), GPNVG (1.2%)", coords: { x: 62, y: 78, w: 20, h: 10 } }
+    tiger: { name: "Tiger Bay Marina", faction: "Lamang", loot: "Ops-Core FAST (6%), EOTech (18%), JPC 2.0", coords: { x: 48, y: 38, w: 19, h: 10 } },
+    banpa: { name: "Ban Pa Village", faction: "Mithras", loot: "AFG Grip (22%), AK-12 (22%), JPC 2.0 (14.5%)", coords: { x: 72, y: 52, w: 17, h: 10 } },
+    fort: { name: "Fort Narith", faction: "Crimson", loot: "DDM4 (3.5%), SRVV Brake, Repair Kits", coords: { x: 12, y: 68, w: 20, h: 11 } },
+    midnight: { name: "Midnight Sapphire", faction: "Elite Guard", loot: "NVGs (2.9%), Raptor Suppressor (4.2%)", coords: { x: 62, y: 78, w: 20, h: 10 } }
 };
 
 // ========== STATE ==========
@@ -70,23 +72,23 @@ let currentMode = "pro";
 let currentWeapon = weapons[0];
 let customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: null };
 
-// ========== RENDER GEAR TABLE ==========
+// ========== RENDER GEAR ==========
 function renderGear() {
-    const container = document.getElementById("gearTable");
+    const container = document.getElementById("gearGrid");
     if (!container) return;
     container.innerHTML = gear.map(g => `
         <div class="gear-item">
             <span class="gear-name">${g.name}</span>
-            <span class="gear-price">$${g.price.toLocaleString()}</span>
-            <span class="gear-drop">${g.drop}%</span>
+            <span class="gear-price">💰 $${g.price.toLocaleString()}</span>
+            <span class="gear-drop">🎲 ${g.drop}%</span>
             <span class="gear-loc">📍 ${g.loc}</span>
         </div>
     `).join("");
 }
 
-// ========== RENDER WEAPON LIST ==========
-function renderWeaponList() {
-    const container = document.getElementById("weaponList");
+// ========== RENDER WEAPONS ==========
+function renderWeapons() {
+    const container = document.getElementById("weaponSelector");
     if (!container) return;
     container.innerHTML = weapons.map(w => `
         <button class="weapon-btn ${currentWeapon.id === w.id ? "active" : ""}" data-id="${w.id}">
@@ -96,45 +98,43 @@ function renderWeaponList() {
     
     document.querySelectorAll(".weapon-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            const id = btn.dataset.id;
-            currentWeapon = weapons.find(w => w.id === id) || weapons[0];
-            renderWeaponList();
-            updateWeaponStats();
-            renderParts();
+            currentWeapon = weapons.find(w => w.id === btn.dataset.id) || weapons[0];
+            renderWeapons();
+            updateWeaponDetails();
+            renderAttachments();
         });
     });
-    updateWeaponStats();
+    updateWeaponDetails();
 }
 
-function updateWeaponStats() {
-    const container = document.getElementById("weaponStats");
+function updateWeaponDetails() {
+    const container = document.getElementById("weaponDetails");
     if (container) {
         container.innerHTML = `
             <strong>${currentWeapon.name}</strong><br>
-            🎯 DMG: ${currentWeapon.dmg} | 🔻 Recoil: ${currentWeapon.recoil} | 🧘 Ergo: ${currentWeapon.ergo}<br>
-            💰 $${currentWeapon.price.toLocaleString()} | 🎲 ${currentWeapon.drop}% drop rate
+            🎯 Damage: ${currentWeapon.dmg} | 🔻 Recoil: ${currentWeapon.recoil} | 🧘 Ergo: ${currentWeapon.ergo}<br>
+            💰 Base Price: $${currentWeapon.price.toLocaleString()} | 🎲 Drop Rate: ${currentWeapon.drop}%
         `;
     }
 }
 
-// ========== GET ATTACHMENTS BY MODE ==========
-function getAttachmentsByMode() {
-    const result = {};
+// ========== RENDER ATTACHMENTS ==========
+function getPartsByMode() {
+    const parts = {};
     for (const [cat, items] of Object.entries(attachments)) {
         if (currentMode === "pro") {
-            result[cat] = items.filter(a => a.type === "pro")[0] || items[0];
+            parts[cat] = items.find(a => a.tier === "pro") || items[0];
         } else if (currentMode === "popular") {
-            result[cat] = items.filter(a => a.type === "popular")[0] || items[0];
+            parts[cat] = items.find(a => a.tier === "popular") || items[0];
         } else {
-            result[cat] = customParts[cat] || null;
+            parts[cat] = customParts[cat];
         }
     }
-    return result;
+    return parts;
 }
 
-// ========== RENDER PARTS ==========
-function renderParts() {
-    const container = document.getElementById("partsContainer");
+function renderAttachments() {
+    const container = document.getElementById("attachmentSlots");
     if (!container) return;
     
     if (currentMode === "custom") {
@@ -142,44 +142,40 @@ function renderParts() {
         for (const [cat, items] of Object.entries(attachments)) {
             const selected = customParts[cat]?.name || "";
             html += `
-                <div class="part-group">
+                <div class="attachment-slot">
                     <label>${cat.toUpperCase()}</label>
-                    <select class="part-select" data-cat="${cat}">
+                    <select class="attachment-select" data-cat="${cat}">
                         <option value="">-- None --</option>
-                        ${items.map(a => `<option value="${a.name}" ${selected === a.name ? "selected" : ""}>${a.name} | Recoil:${a.recoil} Ergo:${a.ergo} | $${a.price} (${a.drop}%)</option>`).join("")}
+                        ${items.map(a => `<option value="${a.name}" ${selected === a.name ? "selected" : ""}>${a.name} | Recoil:${a.recoil} Ergo:${a.ergo} | $${a.price}</option>`).join("")}
                     </select>
                 </div>
             `;
         }
         container.innerHTML = html;
         
-        document.querySelectorAll(".part-select").forEach(select => {
+        document.querySelectorAll(".attachment-select").forEach(select => {
             select.addEventListener("change", (e) => {
                 const cat = select.dataset.cat;
                 const name = select.value;
-                if (name && attachments[cat]) {
-                    customParts[cat] = attachments[cat].find(a => a.name === name);
-                } else {
-                    customParts[cat] = null;
-                }
+                customParts[cat] = name ? attachments[cat].find(a => a.name === name) : null;
                 updateBuildStats();
             });
         });
     } else {
-        const parts = getAttachmentsByMode();
-        let html = '<div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">';
+        const parts = getPartsByMode();
+        let html = `<div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">`;
         for (const [cat, part] of Object.entries(parts)) {
             if (part) {
                 html += `
-                    <div class="part-group" style="flex: 1; min-width: 100px;">
+                    <div class="attachment-slot" style="flex: 1; min-width: 120px;">
                         <label>${cat}</label>
-                        <div style="margin-top: 6px; font-weight: 500;">${part.name}</div>
-                        <div class="stats-preview" style="margin-top: 4px; font-size: 0.7rem;">💰 $${part.price} | 🎲 ${part.drop}%</div>
+                        <div style="font-weight: 500; margin-top: 0.3rem;">${part.name}</div>
+                        <div style="font-size: 0.7rem; color: #8e8e93;">💰 $${part.price} | 🎲 ${part.drop}%</div>
                     </div>
                 `;
             }
         }
-        html += '</div>';
+        html += `</div>`;
         container.innerHTML = html;
         updateBuildStats();
     }
@@ -192,7 +188,7 @@ function updateBuildStats() {
     const partsUsed = [];
     
     if (currentMode === "pro" || currentMode === "popular") {
-        const parts = getAttachmentsByMode();
+        const parts = getPartsByMode();
         for (const part of Object.values(parts)) {
             if (part) {
                 totalRecoil += part.recoil || 0;
@@ -212,93 +208,43 @@ function updateBuildStats() {
         }
     }
     
-    const container = document.getElementById("buildStats");
+    const container = document.getElementById("buildResult");
     if (container) {
         container.innerHTML = `
-            <strong>⚙️ Build Statistics</strong><br>
+            <strong>⚙️ BUILD STATISTICS</strong><br>
             🔻 Total Recoil: ${totalRecoil}<br>
             🧘 Total Ergonomics: ${totalErgo}<br>
             💰 Total Cost: $${totalPrice.toLocaleString()}<br>
-            🧩 Attachments: ${partsUsed.length ? partsUsed.join(", ") : "Standard configuration"}<br>
-            🎯 Weapon Drop Rate: ${currentWeapon.drop}% (high-tier crates)
+            🧩 Attachments: ${partsUsed.length ? partsUsed.join(", ") : "Standard Setup"}<br>
+            🎯 Weapon Drop Rate: ${currentWeapon.drop}%
         `;
     }
 }
 
-// ========== MAP ZONES ==========
-function initMap() {
-    const buttons = document.querySelectorAll(".zone-btn");
-    const overlay = document.getElementById("mapOverlay");
-    const info = document.getElementById("zoneInfo");
+// ========== MAP ==========
+function renderMapZones() {
+    const container = document.getElementById("zoneButtons");
+    if (!container) return;
+    container.innerHTML = Object.keys(zones).map(key => `
+        <button class="zone-btn" data-zone="${key}">${zones[key].name}</button>
+    `).join("");
     
-    buttons.forEach(btn => {
+    document.querySelectorAll(".zone-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-            const zoneId = btn.dataset.zone;
-            const zone = zones[zoneId];
+            const zoneKey = btn.dataset.zone;
+            const zone = zones[zoneKey];
+            const highlighter = document.getElementById("mapHighlighter");
+            const details = document.getElementById("zoneDetails");
             
-            buttons.forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".zone-btn").forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
             
-            if (zone && overlay) {
-                info.innerHTML = `
-                    <strong>📍 ${zone.name}</strong><br>
-                    🚩 Faction: ${zone.faction}<br>
-                    🎁 Loot: ${zone.loot}<br>
-                    ✨ Recommended: Night raids for higher spawns
-                `;
-                
+            if (zone && highlighter) {
                 const c = zone.coords;
-                overlay.innerHTML = `
+                highlighter.innerHTML = `
                     <div style="position: absolute; left: ${c.x}%; top: ${c.y}%; width: ${c.w}%; height: ${c.h}%; 
-                                background: rgba(255, 255, 255, 0.15); border: 2px solid #fff; 
-                                border-radius: 12px; box-shadow: 0 0 20px rgba(255,255,255,0.5);">
+                                background: rgba(255, 255, 255, 0.2); border: 3px solid #fff; 
+                                border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.6); backdrop-filter: blur(2px);">
                     </div>
                 `;
-            }
-        });
-    });
-}
-
-// ========== TABS ==========
-function initTabs() {
-    const tabs = document.querySelectorAll(".nav-tab");
-    const contents = {
-        welcome: document.getElementById("welcome"),
-        builder: document.getElementById("builder"),
-        map: document.getElementById("map")
-    };
-    
-    tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            const target = tab.dataset.tab;
-            tabs.forEach(t => t.classList.remove("active"));
-            tab.classList.add("active");
-            Object.values(contents).forEach(c => c.classList.remove("active"));
-            if (contents[target]) contents[target].classList.add("active");
-        });
-    });
-}
-
-// ========== BUILD MODES ==========
-function initModes() {
-    const modes = document.querySelectorAll(".mode-btn");
-    modes.forEach(btn => {
-        btn.addEventListener("click", () => {
-            modes.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            currentMode = btn.dataset.mode;
-            customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: null };
-            renderParts();
-        });
-    });
-}
-
-// ========== INIT ==========
-document.addEventListener("DOMContentLoaded", () => {
-    renderGear();
-    renderWeaponList();
-    renderParts();
-    initTabs();
-    initModes();
-    initMap();
-});
+                details.innerHTML
