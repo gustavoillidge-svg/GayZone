@@ -3,91 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>GayZone Warfare | Tactical Gear Guide & Loadout Builder</title>
+    <title>GayZone Warfare | Armory & Weapon Builder</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="gzw-app">
+    <!-- HEADER TACTICAL -->
     <div class="mil-header">
-        <h1>◈ GAYZONE WARFARE ◈</h1>
-        <div class="sub">TACTICAL OPERATOR'S HANDBOOK | GEAR, LOOT, DROP RATES & COMBOS</div>
-        <div style="margin-top: 8px; font-size: 0.8rem;">⛨ LAMANG/FN | M4 | Advanced Combat Guide ⛨</div>
+        <div class="header-top">
+            <div class="logo">
+                <span class="skull">⚔️</span>
+                <h1>GAYZONE WARFARE</h1>
+                <span class="skull">⚔️</span>
+            </div>
+            <div class="sub">TACTICAL ARMORY · WEAPON SMITH · CUSTOM BUILDS</div>
+            <div class="version-tag">[ LAMANG OPERATIONS v2.4 ]</div>
+        </div>
     </div>
 
-    <div class="grid-2col">
-        <!-- LEFT COLUMN: GEAR LIST + PROBABILITIES + LOCATIONS -->
-        <div>
+    <!-- MAIN GRID -->
+    <div class="grid-main">
+        <!-- LEFT COLUMN: GEAR & LOOT INFO -->
+        <div class="left-panel">
             <div class="card">
                 <div class="card-header">
-                    <span>⚙️ ESSENTIAL EQUIPMENT</span> 
-                    <span class="badge">Price • Drop % • Spawn Zones</span>
+                    <span>📦 ESSENTIAL EQUIPMENT</span>
+                    <span class="badge">PRICE • DROP % • ZONE</span>
                 </div>
-                <div class="card-content" id="gearListContainer">
-                    <!-- dynamic gear list via js -->
+                <div class="card-content" id="gearListContainer"></div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span>🎯 BEST LOADOUT COMBOS</span>
+                </div>
+                <div class="card-content">
+                    <div id="bestCombosDisplay" class="combo-box"></div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <span>🎯 BEST LOADOUT COMBINATIONS</span>
+                    <span>🏆 STRATEGIES & LOOT RUNS</span>
                 </div>
                 <div class="card-content">
-                    <div id="bestCombosDisplay" class="combo-box">
-                        <!-- combos loaded dynamically -->
-                    </div>
-                    <p style="margin-top: 12px; font-size: 0.75rem;">⬤ Meta: high mobility + armor breaking ammo. Use <span class="highlight">RPC carrier + M4 SOPMOD + JPC 2.0</span> for FN MSR / TIGER BAY raids.</p>
+                    <ul class="strat-list" id="strategiesList"></ul>
+                    <div id="lootTips" class="loot-tips"></div>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN: STRATEGIES + HOW TO PLAY / EQUIP -->
-        <div>
-            <div class="card">
+        <!-- RIGHT COLUMN: WEAPON BUILDER (META/POPULAR/CUSTOM) -->
+        <div class="right-panel">
+            <div class="card weapon-builder-card">
                 <div class="card-header">
-                    <span>🎮 HOW TO PLAY & GEAR UP (GZW)</span>
+                    <span>🔧 WEAPON SMITH · BUILD ANY AR</span>
+                    <span class="badge">META | POPULAR | CUSTOM</span>
                 </div>
                 <div class="card-content">
-                    <p><strong>★ GAYZONE basics:</strong> tactical extraction shooter. You start at base camp ( factions: Mithras, Crimson, Lamang).<br>
-                    <strong>★ Equipping:</strong> Access the 'GEAR' tab → equip vest, helmet, headset, weapon mods, meds. <br>
-                    <strong>★ Best Starting strategy:</strong> loot POIs (YBL-1, Ban Pa, Tiger Bay Marina) → sell high-tier attachments → buy <span class="highlight">RPC carrier</span> + <span class="highlight">M4 Block II</span>.</p>
-                    <hr style="margin: 12px 0;">
-                    <p><strong>🔫 WEAPON TIER LIST:</strong> M4 SOPMOD (meta), AK-12 (budget), DDM4 (rare), MPX (CQB).<br>
-                    <strong>🛡️ ARMOR:</strong> RPC > JPC 2.0 > 6B23. Helmets: Ops-Core FAST (high ricochet).</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span>🧩 STRATEGIES TO OBTAIN TOP GEAR</span>
-                </div>
-                <div class="card-content">
-                    <ul class="strat-list" id="strategiesList">
-                        <!-- strategies injected -->
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <span>🏆 LOOT RUNS & DROP ZONES</span>
-                </div>
-                <div class="card-content">
-                    <div id="lootTips">
-                        <p>🔹 <strong>YBL-1 Bunker:</strong> weapon crates (M4 SOPMOD 12% / RPC 8%)<br>
-                        🔹 <strong>Tiger Bay - Central:</strong> high-tier military loot, Ops-Core helmet (6%)<br>
-                        🔹 <strong>Ban Pa village:</strong> hidden stashes & attachments (AFG grip 22%)<br>
-                        🔹 <strong>Fort Narith:</strong> boss area, MDR & armor repair kits<br>
-                        🔹 <strong>Midnight Sapphire:</strong> rare suppressors & NVGs (2%)</p>
+                    <!-- Build Selector -->
+                    <div class="build-selector">
+                        <button class="build-btn active" data-build="meta">🏅 META BUILD</button>
+                        <button class="build-btn" data-build="popular">🔥 POPULAR BUILD</button>
+                        <button class="build-btn" data-build="custom">🎨 CUSTOM BUILD</button>
                     </div>
+
+                    <!-- Weapon Preview Area (Simulated Game Imagery) -->
+                    <div class="weapon-preview" id="weaponPreview">
+                        <div class="weapon-silhouette">
+                            <div class="part-icon receiver">🔩 RECEIVER</div>
+                            <div class="part-icon barrel">🔫 BARREL</div>
+                            <div class="part-icon handguard">🛡️ HANDGUARD</div>
+                            <div class="part-icon stock">📌 STOCK</div>
+                            <div class="part-icon grip">✋ GRIP</div>
+                            <div class="part-icon optic">🔭 OPTIC</div>
+                            <div class="part-icon muzzle">💨 MUZZLE</div>
+                            <div class="part-icon magazine">📀 MAGAZINE</div>
+                        </div>
+                        <div class="weapon-name" id="weaponNameDisplay">M4 SOPMOD CUSTOM</div>
+                    </div>
+
+                    <!-- Parts List (All weapon components) -->
+                    <div class="parts-inventory">
+                        <h4>⚙️ WEAPON PARTS (click to customize)</h4>
+                        <div class="parts-grid" id="partsGrid"></div>
+                    </div>
+
+                    <!-- Selected Build Details -->
+                    <div class="build-stats" id="buildStats">
+                        <div class="stat-line">🎯 ACCURACY: <span id="accuracyStat">0</span>%</div>
+                        <div class="stat-line">⚡ RECOIL CONTROL: <span id="recoilStat">0</span>%</div>
+                        <div class="stat-line">🔫 RATE OF FIRE: <span id="rofStat">0</span> RPM</div>
+                        <div class="stat-line">💰 TOTAL PRICE: $<span id="priceStat">0</span></div>
+                    </div>
+
+                    <button id="saveCustomBtn" class="btn-primary">💾 SAVE CUSTOM BUILD</button>
+                    <div id="customFeedback" class="feedback-msg"></div>
                 </div>
             </div>
         </div>
     </div>
-    <footer>
-        ⚡ Data based on GayZone community intel | v 1.2 (Lamang edition) — probabilities reflect dynamic loot pools / high-tier crate estimates ⚡
-    </footer>
+    <footer>⚡ GAYZONE WARFARE - ARMORY DATABASE | All weapon parts based on in-game attachments | Build freely ⚡</footer>
 </div>
-
 <script src="script.js"></script>
 </body>
 </html>
