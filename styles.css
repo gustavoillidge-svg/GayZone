@@ -194,3 +194,8 @@ footer {
     border-radius: 20px;
     padding: 2px 10px;
 }
+
+#liveTipMsg {
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
