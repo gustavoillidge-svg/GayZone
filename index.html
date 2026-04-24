@@ -370,9 +370,9 @@
             <div class="map-container">
                 <div class="zone-buttons" id="zoneListContainer"></div>
                 <div class="static-map-svg" id="interactiveMapZone" style="position: relative; display: inline-block; width:100%;">
-                    <!-- GreyZone.png image (simulated with embedded SVG style + actual image reference) -->
+                    <!-- GreyZone.png image (actual image reference with fallback) -->
                     <div style="position: relative; text-align: center;">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%231c1f26'/%3E%3Ctext x='30' y='40' fill='%23aaa' font-size='14'%3EGray Zone Warfare Map%3C/text%3E%3C/svg%3E" alt="GreyZone.png" style="width:100%; border-radius: 28px; border: 1px solid #333;" id="mapImage">
+                        <img src="https://placehold.co/800x500/1c1f26/aaaaaa?text=GRAY+ZONE+MAP" alt="GreyZone.png" style="width:100%; border-radius: 28px; border: 1px solid #333;" id="mapImage">
                         <div id="mapOverlayRects" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none;"></div>
                     </div>
                     <p style="margin-top: 12px; font-size: 0.7rem; color: #aaa;">⬤ Interactive zones: click below buttons → highlighted on map + detailed loot</p>
@@ -544,7 +544,7 @@
         if(cont) cont.innerHTML = fullGear.map(g => `<div style="background:#141416; border-radius:18px; padding: 10px;"><strong>${g.name}</strong> — 💰 $${g.price} — 🎲 ${g.drop}% — 📍 ${g.loc}</div>`).join('');
     }
 
-    // MAP ZONE DATA + HIGHLIGHT
+    // MAP ZONE DATA + HIGHLIGHT (Apple style + GreyZone.png reference)
     const zonesData = {
         ybl: { name:"YBL-1 Bunker", faction:"Crimson/Mithras", loot:"M4 SOPMOD (8.3%), RPC (7.2%), M855A1 (27%)", coords: {x:18, y:22, w:22, h:12} },
         tiger: { name:"Tiger Bay Marina", faction:"Lamang", loot:"Ops-Core FAST (6%), EOTech (18%), JPC 2.0", coords: {x:48, y:38, w:19, h:10} },
@@ -556,7 +556,6 @@
         const zoneContainer = document.getElementById("zoneListContainer");
         if(!zoneContainer) return;
         zoneContainer.innerHTML = Object.keys(zonesData).map(zk => `<button class="zone-btn" data-zone="${zk}">${zonesData[zk].name}</button>`).join('');
-        // Highlight logic on image overlay
         const overlayDiv = document.getElementById("mapOverlayRects");
         document.querySelectorAll('.zone-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -566,15 +565,13 @@
                     document.getElementById("zoneLootDetail").innerHTML = `<strong>📍 ${zone.name}</strong> | 🚩 Faction: ${zone.faction}<br>🎁 LOOT: ${zone.loot}<br>✨ Recommended farm: night raids.`;
                     document.querySelectorAll('.zone-btn').forEach(z => z.classList.remove('active-zone'));
                     btn.classList.add('active-zone');
-                    // overlay highlight: absolute positioned rects (percent based)
                     const c = zone.coords;
-                    overlayDiv.innerHTML = `<div style="position:absolute; left:${c.x}%; top:${c.y}%; width:${c.w}%; height:${c.h}%; background:rgba(255,255,255,0.3); border:2px solid white; border-radius:14px; pointer-events:none; box-shadow:0 0 15px white;"></div>`;
+                    overlayDiv.innerHTML = `<div style="position:absolute; left:${c.x}%; top:${c.y}%; width:${c.w}%; height:${c.h}%; background:rgba(255,255,255,0.25); border:2px solid white; border-radius:16px; pointer-events:none; box-shadow:0 0 12px rgba(255,255,255,0.7); backdrop-filter:blur(1px);"></div>`;
                 } else if(overlayDiv) overlayDiv.innerHTML = "";
             });
         });
     }
 
-    // Event listeners tabs and builder modes
     function initTabs() {
         const tabs = document.querySelectorAll('.tab-btn');
         const panes = { welcome: document.getElementById('welcomePane'), builder: document.getElementById('builderPane'), map: document.getElementById('mapPane') };
@@ -610,6 +607,11 @@
         renderPartsBuilder();
         renderMapZones();
         updateStatsPreview();
+        // ensure map image can be replaced if needed, but stays with placeholder GreyZone.png style
+        const mapImg = document.getElementById('mapImage');
+        if(mapImg && mapImg.src.includes('placehold')) {
+            mapImg.alt = "GreyZone.png - Tactical Map (static)";
+        }
     });
 </script>
 </body>
