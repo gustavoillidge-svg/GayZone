@@ -271,4 +271,237 @@ function updateBuildStats() {
     }
 }
 
-// ==========
+// ========== MAP FUNCTIONS MEJORADAS ==========
+function highlightZone(zoneKey, autoZoom = true) {
+    const highlighter = document.getElementById("mapHighlighter");
+    const zone = zones[zoneKey];
+    const details = document.getElementById("zoneDetails");
+    
+    if (!zone || !highlighter) return;
+    
+    currentHighlightedZone = zoneKey;
+    const c = zone.coords;
+    
+    highlighter.innerHTML = `
+        <div class="highlight-active" style="position: absolute; left: ${c.x}%; top: ${c.y}%; width: ${c.w}%; height: ${c.h}%; 
+                    background: rgba(255, 255, 255, 0.3); border: 3px solid #fff; 
+                    border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.8); backdrop-filter: blur(3px);">
+        </div>
+    `;
+    
+    details.innerHTML = `
+        <strong>📍 ${zone.name}</strong><br>
+        🚩 Faction: ${zone.faction}<br>
+        🎁 Available Loot: ${lootDatabase.filter(l => l.zone === zoneKey).map(l => l.name).join(", ")}<br>
+        ✨ Recommended: Night raids for higher spawn rates
+    `;
+    
+    // Auto zoom to zone if requested
+    if (autoZoom) {
+        autoZoomToZone(c);
+    }
+}
+
+function autoZoomToZone(coords) {
+    // Calculate optimal zoom based on zone size
+    const zoneWidth = coords.w;
+    const targetZoom = Math.min(2.5, Math.max(1.2, 100 / zoneWidth));
+    setZoom(targetZoom);
+}
+
+function setZoom(zoomLevel) {
+    currentZoom = Math.min(3, Math.max(1, zoomLevel));
+    const container = document.getElementById("zoomContainer");
+    const slider = document.getElementById("zoomSlider");
+    const zoomValue = document.getElementById("zoomValue");
+    
+    if (container) {
+        container.style.transform = `scale(${currentZoom})`;
+        container.style.transformOrigin = "center center";
+    }
+    if (slider) slider.value = currentZoom;
+    if (zoomValue) zoomValue.textContent = `${Math.round(currentZoom * 100)}%`;
+}
+
+function resetMapView() {
+    setZoom(1);
+    const container = document.getElementById("zoomContainer");
+    if (container) {
+        container.style.transform = "scale(1)";
+    }
+}
+
+// ========== RENDER LOOT LIST COMPLETA ==========
+let currentCategory = "all";
+let searchTerm = "";
+
+function renderLootList() {
+    const container = document.getElementById("lootList");
+    const countSpan = document.getElementById("lootCount");
+    if (!container) return;
+    
+    let filtered = lootDatabase;
+    
+    // Filter by category
+    if (currentCategory !== "all") {
+        filtered = filtered.filter(l => l.category === currentCategory);
+    }
+    
+    // Filter by search term
+    if (searchTerm) {
+        filtered = filtered.filter(l => l.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    
+    countSpan.textContent = `${filtered.length} items`;
+    
+    container.innerHTML = filtered.map(loot => `
+        <div class="loot-item" data-zone="${loot.zone}" data-loot-name="${loot.name}">
+            <div class="loot-name">
+                <span>${loot.name}</span>
+                <span class="loot-price">💰 $${loot.price.toLocaleString()}</span>
+            </div>
+            <div class="loot-details">
+                <span class="loot-drop">🎲 ${loot.dropRate}%</span>
+                <span>📍 ${loot.loc}</span>
+                <span>🏷️ ${loot.category}</span>
+            </div>
+        </div>
+    `).join("");
+    
+    // Add click handlers to loot items
+    document.querySelectorAll(".loot-item").forEach(item => {
+        item.addEventListener("click", () => {
+            const zoneKey = item.dataset.zone;
+            const lootName = item.dataset.lootName;
+            
+            // Remove previous selection
+            document.querySelectorAll(".loot-item").forEach(i => i.classList.remove("selected"));
+            item.classList.add("selected");
+            
+            // Highlight zone on map
+            highlightZone(zoneKey, true);
+            
+            // Update details with specific loot info
+            const loot = lootDatabase.find(l => l.name === lootName);
+            const details = document.getElementById("zoneDetails");
+            if (loot && details) {
+                details.innerHTML = `
+                    <strong>🔫 ${loot.name}</strong><br>
+                    📍 Location: ${loot.loc}<br>
+                    🎲 Drop Rate: ${loot.dropRate}%<br>
+                    💰 Value: $${loot.price.toLocaleString()}<br>
+                    🏷️ Category: ${loot.category}<br>
+                    ✨ Best farm: Night raids, check weapon crates
+                `;
+            }
+        });
+    });
+}
+
+function renderCategories() {
+    const container = document.getElementById("lootCategories");
+    if (!container) return;
+    
+    const categories = ["all", ...new Set(lootDatabase.map(l => l.category))];
+    
+    container.innerHTML = categories.map(cat => `
+        <button class="category-chip ${currentCategory === cat ? "active" : ""}" data-category="${cat}">
+            ${cat === "all" ? "📦 ALL" : cat}
+        </button>
+    `).join("");
+    
+    document.querySelectorAll(".category-chip").forEach(btn => {
+        btn.addEventListener("click", () => {
+            currentCategory = btn.dataset.category;
+            renderCategories();
+            renderLootList();
+        });
+    });
+}
+
+// ========== TABS ==========
+function initTabs() {
+    const tabs = document.querySelectorAll(".nav-item");
+    const pages = {
+        welcome: document.getElementById("welcome"),
+        builder: document.getElementById("builder"),
+        map: document.getElementById("map")
+    };
+    
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const target = tab.dataset.tab;
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            Object.values(pages).forEach(page => page.classList.remove("active"));
+            if (pages[target]) pages[target].classList.add("active");
+            
+            if (target === "builder") {
+                renderWeapons();
+                renderAttachments();
+            }
+            if (target === "map") {
+                renderLootList();
+                renderCategories();
+            }
+        });
+    });
+}
+
+// ========== BUILD MODES ==========
+function initModes() {
+    const modes = document.querySelectorAll(".mode-pill");
+    modes.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modes.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentMode = btn.dataset.mode;
+            customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: null };
+            renderAttachments();
+        });
+    });
+}
+
+// ========== MAP CONTROLS ==========
+function initMapControls() {
+    const zoomIn = document.getElementById("zoomInBtn");
+    const zoomOut = document.getElementById("zoomOutBtn");
+    const resetView = document.getElementById("resetViewBtn");
+    const zoomSlider = document.getElementById("zoomSlider");
+    
+    if (zoomIn) {
+        zoomIn.addEventListener("click", () => setZoom(currentZoom + 0.2));
+    }
+    if (zoomOut) {
+        zoomOut.addEventListener("click", () => setZoom(currentZoom - 0.2));
+    }
+    if (resetView) {
+        resetView.addEventListener("click", resetMapView);
+    }
+    if (zoomSlider) {
+        zoomSlider.addEventListener("input", (e) => setZoom(parseFloat(e.target.value)));
+    }
+    
+    // Search functionality
+    const searchInput = document.getElementById("lootSearch");
+    if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+            searchTerm = e.target.value;
+            renderLootList();
+        });
+    }
+}
+
+// ========== INITIALIZATION ==========
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("GZW Armory Core initialized");
+    renderGear();
+    renderWeapons();
+    renderAttachments();
+    renderLootList();
+    renderCategories();
+    initTabs();
+    initModes();
+    initMapControls();
+    setZoom(1);
+});
