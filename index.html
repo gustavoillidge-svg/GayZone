@@ -7,107 +7,119 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">
-            <span class="brand-icon">◈</span>
-            <span class="brand-text">GRAY ZONE</span>
-            <span class="brand-sub">ARMORY CORE</span>
-        </div>
-        <div class="nav-tabs">
-            <button class="nav-tab active" data-tab="welcome">Welcome</button>
-            <button class="nav-tab" data-tab="builder">Loadout Studio</button>
-            <button class="nav-tab" data-tab="map">Tactical Map</button>
-        </div>
-    </nav>
-
-    <main class="main">
-        <!-- WELCOME TAB -->
-        <div id="welcome" class="tab-content active">
-            <div class="hero">
-                <h1>Operator's Handbook</h1>
-                <p>Gray Zone Warfare — Tactical extraction shooter. Factions: Mithras, Crimson, Lamang.</p>
-            </div>
-            
-            <div class="cards-grid">
-                <div class="card">
-                    <div class="card-icon">🎮</div>
-                    <h3>Core Mechanics</h3>
-                    <p>Persistent health system, realistic ballistics, faction warfare. Extract with valuable loot to progress.</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">💰</div>
-                    <h3>Economy</h3>
-                    <p>Sell high-tier attachments, complete vendor missions. Budget starter: AK-12 + JPC 2.0 (~$36k).</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">📍</div>
-                    <h3>Hot Loot Zones</h3>
-                    <p>YBL-1 (M4/RPC), Ban Pa (AFG 22%), Tiger Bay (Ops-Core 6.8%), Fort Narith (DDM4).</p>
-                </div>
-                <div class="card">
-                    <div class="card-icon">🛡️</div>
-                    <h3>Armor Meta</h3>
-                    <p>RPC > JPC 2.0 > 6B23. Helmets: Ops-Core FAST (high ricochet chance).</p>
+    <div class="app-container">
+        <!-- Premium Glass Navbar -->
+        <nav class="glass-nav">
+            <div class="nav-logo">
+                <div class="logo-icon">⚡</div>
+                <div class="logo-text">
+                    <span class="logo-main">GRAY ZONE</span>
+                    <span class="logo-sub">ARMORY CORE</span>
                 </div>
             </div>
+            <div class="nav-menu">
+                <button class="nav-item active" data-tab="welcome">
+                    <span class="nav-icon">🏠</span>
+                    <span>OPERATIONS</span>
+                </button>
+                <button class="nav-item" data-tab="builder">
+                    <span class="nav-icon">🔧</span>
+                    <span>LOADOUT STUDIO</span>
+                </button>
+                <button class="nav-item" data-tab="map">
+                    <span class="nav-icon">🗺️</span>
+                    <span>TACTICAL MAP</span>
+                </button>
+            </div>
+        </nav>
 
-            <div class="card full-width">
-                <h3>📦 Complete Gear Database</h3>
-                <div id="gearTable" class="gear-grid"></div>
+        <!-- WELCOME SECTION -->
+        <div id="welcome" class="page active">
+            <div class="hero-banner">
+                <h1 class="hero-title">OPERATOR'S READY ROOM</h1>
+                <p class="hero-sub">Gray Zone Warfare • Tactical Extraction • Faction Warfare</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <h3>Core Mechanics</h3>
+                        <p>Persistent health, realistic ballistics, faction-based PvPvE extraction</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <h3>Economy System</h3>
+                        <p>Sell loot, complete vendor missions, build your arsenal</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📍</div>
+                    <div class="stat-info">
+                        <h3>Hot Loot Zones</h3>
+                        <p>YBL-1 • Ban Pa • Tiger Bay • Fort Narith • Midnight Sapphire</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛡️</div>
+                    <div class="stat-info">
+                        <h3>Armor Meta</h3>
+                        <p>RPC > JPC 2.0 > 6B23 | Ops-Core FAST for head protection</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel full-width">
+                <div class="panel-header">
+                    <h2>📦 COMPLETE GEAR DATABASE</h2>
+                    <span class="badge">Live Drop Rates</span>
+                </div>
+                <div id="gearGrid" class="gear-container"></div>
             </div>
         </div>
 
-        <!-- BUILDER TAB -->
-        <div id="builder" class="tab-content">
+        <!-- BUILDER SECTION -->
+        <div id="builder" class="page">
             <div class="builder-header">
-                <h1>Weapon Studio</h1>
-                <div class="build-modes">
-                    <button class="mode-btn active" data-mode="pro">Pro Builds</button>
-                    <button class="mode-btn" data-mode="popular">Popular Builds</button>
-                    <button class="mode-btn" data-mode="custom">Custom Build</button>
+                <h2>🔫 WEAPON CUSTOMIZATION STUDIO</h2>
+                <div class="mode-selector">
+                    <button class="mode-pill active" data-mode="pro">🏆 PRO BUILDS</button>
+                    <button class="mode-pill" data-mode="popular">🔥 POPULAR BUILDS</button>
+                    <button class="mode-pill" data-mode="custom">🎨 CUSTOM BUILD</button>
                 </div>
             </div>
-            
-            <div class="builder-layout">
-                <div class="weapon-panel">
-                    <h3>Select Weapon</h3>
-                    <div id="weaponList" class="weapon-buttons"></div>
-                    <div id="weaponStats" class="stats-preview"></div>
+
+            <div class="builder-grid">
+                <div class="builder-card">
+                    <h3>SELECT PRIMARY WEAPON</h3>
+                    <div id="weaponSelector" class="weapon-list"></div>
+                    <div id="weaponDetails" class="weapon-details"></div>
                 </div>
-                <div class="parts-panel">
-                    <h3>Attachments</h3>
-                    <div id="partsContainer"></div>
-                    <div id="buildStats" class="build-stats"></div>
+                <div class="builder-card">
+                    <h3>ATTACHMENT MODULES</h3>
+                    <div id="attachmentSlots" class="attachment-grid"></div>
+                    <div id="buildResult" class="build-summary"></div>
                 </div>
             </div>
         </div>
 
-        <!-- MAP TAB -->
-        <div id="map" class="tab-content">
-            <h1>Lamang Theater</h1>
-            <div class="map-container">
-                <div class="zone-filters">
-                    <button class="zone-btn" data-zone="ybl">YBL-1 Bunker</button>
-                    <button class="zone-btn" data-zone="tiger">Tiger Bay</button>
-                    <button class="zone-btn" data-zone="banpa">Ban Pa</button>
-                    <button class="zone-btn" data-zone="fort">Fort Narith</button>
-                    <button class="zone-btn" data-zone="midnight">Midnight Sapphire</button>
-                </div>
-                <div class="map-wrapper">
-                    <img src="GreyZone.png" alt="Gray Zone Map" id="mapImage" class="map-image">
-                    <div id="mapOverlay" class="map-overlay"></div>
-                </div>
-                <div id="zoneInfo" class="zone-info">
-                    <p>🔍 Select a zone to see loot details</p>
+        <!-- MAP SECTION -->
+        <div id="map" class="page">
+            <div class="map-header">
+                <h2>🗺️ LAMANG OPERATIONAL THEATER</h2>
+                <div class="zone-pills" id="zoneButtons"></div>
+            </div>
+            <div class="map-viewer">
+                <div class="map-container">
+                    <img src="GreyZone.png" alt="Gray Zone Warfare Map" id="tacticalMap" class="tactical-map">
+                    <div id="mapHighlighter" class="map-highlighter"></div>
                 </div>
             </div>
+            <div id="zoneDetails" class="zone-detail-card"></div>
         </div>
-    </main>
-
-    <footer>
-        <span>⚡ GZW Community Intel v3.0</span>
-        <span>All weapons & attachments — Dynamic drop rates</span>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
