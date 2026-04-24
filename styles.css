@@ -1,201 +1,198 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+// -------------------- GEAR DATABASE (name, price, dropChance%, locations, category, synergy rating)
+const gearDatabase = [
+    { id: 1, name: "RPC Tactical Carrier", price: 28500, dropChance: 7.2, locations: "YBL-1 Weapon Room, Fort Narith HQ", category: "Armor/Vest", bestFor: "endgame", weight: "heavy" },
+    { id: 2, name: "JPC 2.0 Plate Carrier", price: 18400, dropChance: 14.5, locations: "Tiger Bay Marina, Ban Pa elite", category: "Armor/Vest", bestFor: "balanced", weight: "medium" },
+    { id: 3, name: "Ops-Core FAST Helmet", price: 22300, dropChance: 6.8, locations: "Midnight Sapphire, FN MSR heli crash", category: "Helmet", bestFor: "head protection" },
+    { id: 4, name: "M4 SOPMOD Block II", price: 39800, dropChance: 8.3, locations: "YBL-1 weapons crate, Boss container", category: "Assault Rifle", bestFor: "all-round" },
+    { id: 5, name: "AK-12", price: 17900, dropChance: 22.0, locations: "Common AI kills, Ban Pa outskirts", category: "AR", bestFor: "budget" },
+    { id: 6, name: "DDM4 (Rare)", price: 51200, dropChance: 3.5, locations: "Fort Narith commander's room", category: "AR", bestFor: "high pen" },
+    { id: 7, name: "EOTech EXPS3 (Holo)", price: 8700, dropChance: 18.2, locations: "Weapon boxes, Tiger Bay cargo", category: "Optic", bestFor: "CQC" },
+    { id: 8, name: "AFG Angled Foregrip", price: 4200, dropChance: 22.0, locations: "Ban Pa hidden caches, supply drop", category: "Grip", bestFor: "recoil" },
+    { id: 9, name: "Raptor 556 SD Suppressor", price: 14300, dropChance: 4.2, locations: "Midnight Sapphire basement", category: "Muzzle", bestFor: "stealth" },
+    { id: 10, name: "PVS-31 NVGs", price: 32200, dropChance: 2.9, locations: "Night heli crash event, Boss stash", category: "Headgear", bestFor: "night ops" },
+    { id: 11, name: "GPNVG-18 (Quad)", price: 54600, dropChance: 1.2, locations: "Secret bunker FN MSR", category: "NVG", bestFor: "elite" },
+    { id: 12, name: "M855A1 Ammo (60rd)", price: 3400, dropChance: 27.5, locations: "Loose loot YBL-1, ammo boxes", category: "Ammo", bestFor: "penetration" }
+];
 
-body {
-    background: radial-gradient(circle at 20% 30%, #0a0f1a, #03060b);
-    font-family: 'Segoe UI', 'Poppins', 'Orbitron', 'Courier New', monospace;
-    color: #dfe6e9;
-    line-height: 1.5;
-    padding: 1.5rem;
-}
+// additional location details (strategy list)
+const strategiesArray = [
+    "▶︎ RUN YBL-1 BACK TO BACK: rush lower weapon room, high RPC & M4 chance (7-8%). Reset raids quickly.",
+    "▶︎ FARM BAN PA AT NIGHT: military crates respawn every 20min → AFG & JPC 2.0 (14% drop).",
+    "▶︎ TRADE WITH OTHER OPERATORS: join faction discord, barter rare NVGs for RPC+suppressor.",
+    "▶︎ BOSS FARMING (Fort Narith boss): 12% chance to drop special DDM4 + quad tubes.",
+    "▶︎ LOOT ROUTE: Tiger Bay Marina → YBL-1 exit → extract with high-tier plates, sell duplicate gear."
+];
 
-/* main container */
-.gzw-app {
-    max-width: 1400px;
-    margin: 0 auto;
-}
+// BEST COMBINATIONS: based on meta synergy
+const bestCombos = [
+    { title: "🏅 ENDGAME RAID META", loadout: "RPC Carrier + Ops-Core FAST + M4 SOPMOD w/ Suppressor + AFG grip", cost: "~84k $", efficiency: "S-Tier, max survivability + recoil control. Obtain RPC from YBL-1 (7.2%)" },
+    { title: "💰 BUDGET SNIPER (early wipe)", loadout: "JPC 2.0 + AK-12 + EOTech + standard ammo", cost: "~42k $", efficiency: "High drop chance (AK12 22%). Farm Ban Pa for quick upgrades." },
+    { title: "🌙 NIGHT DOMINATION", loadout: "PVS-31 NVGs (or GPNVG) + RPC + suppressed DDM4", cost: "~95k $", efficiency: "Ultimate stealth. Get NVGs from boss night crate (2.9%)." },
+    { title: "⚡ SPEED & LOOT RUNNER", loadout: "JPC 2.0 (light) + MP5/MPX + no helmet / Fast helmet", cost: "~32k $", efficiency: "Mobility focused, grab M855A1 ammo for quick kills." }
+];
 
-/* header */
-.mil-header {
-    border-left: 6px solid #8b9a46;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(8px);
-    padding: 1rem 2rem;
-    margin-bottom: 2rem;
-    border-radius: 28px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-}
+// function to render gear list with full details and interactive buttons
+function renderGearListWithButtons() {
+    const container = document.getElementById('gearListContainer');
+    if(!container) return;
+    
+    let html = `<div class="gear-grid">`;
+    gearDatabase.forEach(gear => {
+        html += `
+            <div class="gear-item" data-gear="${gear.name}">
+                <div class="gear-name">
+                    <span>🔸 ${gear.name}</span>
+                    <span class="stat-badge">${gear.category}</span>
+                </div>
+                <div class="details-row">
+                    <span class="price">💰 $${gear.price.toLocaleString()}</span>
+                    <span class="drop-rate">📊 Drop: ${gear.dropChance}%</span>
+                    <span class="location">📍 ${gear.locations}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items:center; margin-top: 8px;">
+                    <span style="font-size:0.7rem;">⚡ ${gear.bestFor}</span>
+                    <button class="btn-tactic tip-btn" data-item="${gear.name}">🎯 obtain strategy</button>
+                </div>
+            </div>
+        `;
+    });
+    html += `</div><div style="margin-top:12px;"><div id="liveTipMsg" style="background:#212529;border-radius:20px;padding:6px 12px;font-size:0.75rem; min-height: 60px;"></div></div>`;
+    container.innerHTML = html;
 
-h1 {
-    font-size: 2.2rem;
-    letter-spacing: 2px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #e0e6c3, #9ab55e);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-.sub {
-    font-family: monospace;
-    color: #b9c7a9;
-    font-size: 0.9rem;
-}
-
-/* grid layout */
-.grid-2col {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 1.8rem;
-}
-
-/* cards */
-.card {
-    background: rgba(18, 24, 32, 0.85);
-    backdrop-filter: blur(4px);
-    border-radius: 28px;
-    border: 1px solid rgba(139, 154, 70, 0.4);
-    overflow: hidden;
-    margin-bottom: 1.8rem;
-    transition: all 0.2s;
-}
-
-.card-header {
-    background: #0f141c;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #8b9a46;
-    font-weight: bold;
-    font-size: 1.3rem;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.card-content {
-    padding: 1.2rem 1.5rem;
-}
-
-/* equipment table style */
-.gear-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.gear-item {
-    background: #0b1016;
-    border-radius: 18px;
-    padding: 0.9rem;
-    transition: 0.1s linear;
-    border-left: 4px solid #6f7c3e;
-}
-
-.gear-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-}
-
-.stat-badge {
-    font-size: 0.75rem;
-    background: #1e2a1e;
-    padding: 3px 8px;
-    border-radius: 30px;
-    font-family: monospace;
-}
-
-.details-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    font-size: 0.8rem;
-    margin-top: 5px;
-    color: #bdd4bf;
-}
-
-.price {
-    color: #c5e07b;
-}
-
-.drop-rate {
-    color: #e3b87c;
-}
-
-.location {
-    color: #86b3d4;
-}
-
-hr {
-    border-color: #2b3520;
-    margin: 6px 0;
-}
-
-.btn-tactic {
-    background: #1f2a1b;
-    border: 1px solid #8b9a46;
-    color: #e6f0cf;
-    padding: 6px 12px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 0.7rem;
-    font-weight: bold;
-    transition: 0.1s;
-}
-
-.btn-tactic:hover {
-    background: #8b9a46;
-    color: #0a0f1a;
-}
-
-/* best combo section */
-.combo-box {
-    background: #03060b;
-    border-radius: 20px;
-    padding: 1rem;
-    margin-top: 1rem;
-}
-
-.highlight {
-    color: #d6ef7c;
-    font-weight: bold;
-}
-
-/* strategies list */
-.strat-list li {
-    margin-left: 1.5rem;
-    margin-bottom: 0.8rem;
-}
-
-@media (max-width: 880px) {
-    .grid-2col {
-        grid-template-columns: 1fr;
-    }
-    body {
-        padding: 0.8rem;
+    // attach event listeners to obtain buttons - VERSIÓN CORREGIDA
+    const btns = document.querySelectorAll('.tip-btn');
+    const tipMsgDiv = document.getElementById('liveTipMsg');
+    
+    btns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const itemName = this.getAttribute('data-item');
+            const gearObj = gearDatabase.find(g => g.name === itemName);
+            
+            if(gearObj && tipMsgDiv) {
+                tipMsgDiv.innerHTML = `🔔 TACTICAL INTEL: ${gearObj.name}<br>📊 Drop rate: ${gearObj.dropChance}%<br>📍 Farm at: ${gearObj.locations}<br>💰 Estimated price: $${gearObj.price.toLocaleString()}<br>⚡ Best strategy: Focus these hotspots, kill HVTs, repeat raids for best chance.`;
+                tipMsgDiv.style.opacity = '1';
+                tipMsgDiv.style.background = "#0a2a1a";
+            } else if(tipMsgDiv) {
+                tipMsgDiv.innerHTML = `⚠️ No further intel available for this item. Check high-tier weapon crates and POIs.`;
+                tipMsgDiv.style.opacity = '1';
+            }
+            
+            // Reset after 5 seconds
+            setTimeout(() => {
+                if(tipMsgDiv) {
+                    tipMsgDiv.style.background = "#212529";
+                    tipMsgDiv.innerHTML = `💡 Click on any "obtain strategy" button to get detailed farming tips for that item.`;
+                }
+            }, 6000);
+        });
+    });
+    
+    // Set initial message
+    if(tipMsgDiv && tipMsgDiv.innerHTML.trim() === '') {
+        tipMsgDiv.innerHTML = `💡 Click on any "obtain strategy" button to get detailed farming tips for that item.`;
     }
 }
 
-footer {
-    text-align: center;
-    margin-top: 2rem;
-    font-size: 0.7rem;
-    color: #5a6e49;
+// render best combos dynamically
+function renderBestCombos() {
+    const comboDiv = document.getElementById('bestCombosDisplay');
+    if(!comboDiv) return;
+    let comboHtml = `<div style="display:flex; flex-direction:column; gap:12px;">`;
+    bestCombos.forEach(combo => {
+        comboHtml += `
+            <div style="background:#0a0f16; border-radius:16px; padding:10px;">
+                <div style="font-weight:bold; color:#c5e07b;">${combo.title}</div>
+                <div>${combo.loadout}</div>
+                <div style="display:flex; justify-content:space-between; margin-top:6px;">
+                    <span>💰 ${combo.cost}</span>
+                    <span class="badge">${combo.efficiency}</span>
+                </div>
+            </div>
+        `;
+    });
+    comboHtml += `</div>`;
+    comboDiv.innerHTML = comboHtml;
 }
 
-.badge {
-    background: #232c1c;
-    border-radius: 20px;
-    padding: 2px 10px;
+// render strategies
+function renderStrategies() {
+    const stratList = document.getElementById('strategiesList');
+    if(stratList) {
+        let items = '';
+        strategiesArray.forEach(strat => {
+            items += `<li>${strat}</li>`;
+        });
+        stratList.innerHTML = items;
+    }
 }
 
-#liveTipMsg {
-    transition: opacity 0.3s ease;
-    opacity: 1;
+// probability panel
+function updateProbabilityPanel() {
+    const comboInfoDiv = document.getElementById('bestCombosDisplay');
+    if(comboInfoDiv && !comboInfoDiv.querySelector('.stat-prob')) {
+        const m4Chance = gearDatabase.find(g=>g.name === "M4 SOPMOD Block II")?.dropChance || 8.3;
+        const rpcChance = gearDatabase.find(g=>g.name === "RPC Tactical Carrier")?.dropChance || 7.2;
+        const probDiv = document.createElement('div');
+        probDiv.className = 'stat-prob';
+        probDiv.style.marginTop = '12px';
+        probDiv.style.background = "#0e131c";
+        probDiv.style.padding = "8px";
+        probDiv.style.borderRadius = "16px";
+        probDiv.innerHTML = `🎲 PROBABILITY SIM: M4 SOPMOD drop ~${m4Chance}% per crate. With 5 crates ~ ${(1 - Math.pow(1 - (m4Chance/100), 5)).toFixed(2)*100}% chance. RPC ${rpcChance}% → farm high tier.`;
+        comboInfoDiv.appendChild(probDiv);
+    }
+}
+
+// loadout advisor
+function createStyleSelector() {
+    const lootTipsDiv = document.getElementById('lootTips');
+    if(lootTipsDiv && !document.getElementById('customAdvisor')) {
+        const advisorBlock = document.createElement('div');
+        advisorBlock.id = 'customAdvisor';
+        advisorBlock.style.marginTop = '16px';
+        advisorBlock.style.background = '#0a0e14';
+        advisorBlock.style.borderRadius = '18px';
+        advisorBlock.style.padding = '12px';
+        advisorBlock.innerHTML = `
+            <strong>🎛️ LOADOUT ADVISOR (click to compare):</strong><br>
+            <select id="playstyleSelect" style="background:#1e2a1a; border:1px solid #8b9a46; color:white; padding:6px; border-radius:20px; margin:6px 0;">
+                <option value="assault">Assault (CQB rush)</option>
+                <option value="sniper">Recon / DMR</option>
+                <option value="budget">Budget starter</option>
+            </select>
+            <button id="adviseBtn" class="btn-tactic">Get recommendation</button>
+            <div id="adviseResult" style="margin-top:10px; font-size:0.8rem;"></div>
+        `;
+        lootTipsDiv.parentNode.insertBefore(advisorBlock, lootTipsDiv.nextSibling);
+        
+        const adviseBtn = document.getElementById('adviseBtn');
+        if(adviseBtn) {
+            adviseBtn.addEventListener('click', () => {
+                const style = document.getElementById('playstyleSelect').value;
+                let msg = '';
+                if(style === 'assault') msg = "✓ M4 SOPMOD + RPC + EOTech (close quarters). farm YBL-1 for RPC (7.2%) or tiger bay for JPC backup.";
+                else if(style === 'sniper') msg = "✓ DDM4 with suppressor + Ops-Core helmet. Loot Fort Narith commander room (3.5% DDM4) for long range engagements.";
+                else msg = "✓ AK-12 (22% drop) + JPC 2.0 (14.5%) from Ban Pa & military crates. Best budget combo and good survivability.";
+                document.getElementById('adviseResult').innerHTML = `<span class="highlight">${msg}</span>`;
+            });
+        }
+    }
+}
+
+// main init all components
+function initApp() {
+    renderGearListWithButtons();
+    renderBestCombos();
+    renderStrategies();
+    updateProbabilityPanel();
+    createStyleSelector();
+}
+
+// ejecutar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
 }
