@@ -1,229 +1,294 @@
-// ======================== FULL WEAPONS DATABASE (ALL GUNS) ========================
-const weaponsDatabase = [
-    { id: "m4_sopmod", name: "M4 SOPMOD Block II", basePrice: 39800, baseDrop: 8.3, dmg: 42, recoil: 68, ergo: 72, caliber: "5.56x45" },
-    { id: "ak12", name: "AK-12", basePrice: 17900, baseDrop: 22.0, dmg: 48, recoil: 74, ergo: 61, caliber: "7.62x39" },
-    { id: "ddm4", name: "DDM4 (Rare)", basePrice: 51200, baseDrop: 3.5, dmg: 46, recoil: 65, ergo: 78, caliber: "5.56x45" },
-    { id: "mpx", name: "MPX SMG", basePrice: 26400, baseDrop: 11.2, dmg: 34, recoil: 45, ergo: 85, caliber: "9x19" },
-    { id: "scar_h", name: "SCAR-H", basePrice: 45200, baseDrop: 5.1, dmg: 58, recoil: 82, ergo: 58, caliber: "7.62x51" },
-    { id: "hk416", name: "HK416 A5", basePrice: 47500, baseDrop: 4.2, dmg: 44, recoil: 64, ergo: 75, caliber: "5.56x45" },
-    { id: "mdr", name: "MDR", basePrice: 48900, baseDrop: 3.9, dmg: 52, recoil: 70, ergo: 68, caliber: "7.62x51" },
-    { id: "aug", name: "Steyr AUG", basePrice: 31200, baseDrop: 9.5, dmg: 43, recoil: 66, ergo: 74, caliber: "5.56x45" },
-    { id: "vector", name: "KRISS Vector", basePrice: 39800, baseDrop: 6.7, dmg: 36, recoil: 42, ergo: 82, caliber: ".45 ACP" }
-];
-
-// ======================== ALL PARTS (EVERY SINGLE MOD) ========================
-const attachmentsDB = {
-    optic: [
-        { name: "EOTech EXPS3", price: 8700, drop: 18.2, statBonus: { ergo: 3, recoil: -2 }, bestFor: "pro" },
-        { name: "Vortex Razor HD Gen III", price: 14200, drop: 7.4, statBonus: { ergo: 2, recoil: -5 }, bestFor: "pro" },
-        { name: "Trijicon ACOG", price: 9900, drop: 9.1, statBonus: { ergo: 1, recoil: -2 }, bestFor: "popular" },
-        { name: "Kobra Red Dot", price: 3100, drop: 25, statBonus: { ergo: 1, recoil: -1 }, bestFor: "popular" },
-        { name: "Holosun HS510C", price: 5200, drop: 15.3, statBonus: { ergo: 2, recoil: -1 }, bestFor: "custom" }
-    ],
-    muzzle: [
-        { name: "Raptor 556 SD Suppressor", price: 14300, drop: 4.2, statBonus: { ergo: -2, recoil: -12 }, bestFor: "pro" },
-        { name: "SureFire WarComp", price: 5200, drop: 12.8, statBonus: { recoil: -6 }, bestFor: "popular" },
-        { name: "ASR Brake", price: 3800, drop: 15, statBonus: { recoil: -4 }, bestFor: "popular" },
-        { name: "Standard Flash Hider", price: 1200, drop: 35, statBonus: { recoil: -2 }, bestFor: "custom" },
-        { name: "SRVV Jet Brake", price: 6800, drop: 8.5, statBonus: { recoil: -8, ergo: -1 }, bestFor: "pro" }
-    ],
-    grip: [
-        { name: "AFG Angled Grip", price: 4200, drop: 22, statBonus: { recoil: -5, ergo: 4 }, bestFor: "pro" },
-        { name: "RVG Vertical Grip", price: 2800, drop: 28, statBonus: { recoil: -4, ergo: 2 }, bestFor: "popular" },
-        { name: "EMOD Grip", price: 3900, drop: 11, statBonus: { recoil: -5, ergo: 3 }, bestFor: "pro" },
-        { name: "BCM Gunfighter", price: 2300, drop: 19, statBonus: { recoil: -3 }, bestFor: "custom" },
-        { name: "Magpul MIAD", price: 1850, drop: 31, statBonus: { ergo: 2 }, bestFor: "popular" }
-    ],
-    stock: [
-        { name: "Magpul CTR", price: 5600, drop: 12, statBonus: { ergo: 6, recoil: -3 }, bestFor: "pro" },
-        { name: "UBR Gen2", price: 7200, drop: 6.5, statBonus: { ergo: 4, recoil: -5 }, bestFor: "pro" },
-        { name: "Standard Stock", price: 0, drop: 85, statBonus: {}, bestFor: "popular" },
-        { name: "Skeleton Stock", price: 3400, drop: 14, statBonus: { ergo: 5, recoil: -2 }, bestFor: "custom" }
-    ],
-    magazine: [
-        { name: "PMAG 30", price: 1200, drop: 38, statBonus: { ergo: 1 }, bestFor: "popular" },
-        { name: "Drum Mag 60", price: 3400, drop: 7.8, statBonus: { ergo: -3 }, bestFor: "custom" },
-        { name: "Lancer L5", price: 1800, drop: 22, statBonus: {}, bestFor: "pro" }
-    ]
-};
-
-// Helper getters
-function getBestPart(category) { 
-    const parts = attachmentsDB[category]; 
-    if(category === "optic") return parts.find(p => p.name === "Vortex Razor HD Gen III") || parts[0];
-    if(category === "muzzle") return parts.find(p => p.name.includes("Suppressor")) || parts[0];
-    if(category === "grip") return parts.find(p => p.name === "AFG Angled Grip") || parts[0];
-    if(category === "stock") return parts.find(p => p.name === "UBR Gen2") || parts[0];
-    if(category === "magazine") return parts.find(p => p.name === "PMAG 30") || parts[0];
-    return parts[0]; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-function getPopularPart(category) { 
-    const parts = attachmentsDB[category];
-    if(category === "optic") return parts.find(p => p.name === "EOTech EXPS3") || parts[0];
-    if(category === "muzzle") return parts.find(p => p.name.includes("WarComp")) || parts[1];
-    if(category === "grip") return parts.find(p => p.name === "RVG Vertical Grip") || parts[0];
-    if(category === "stock") return parts.find(p => p.name === "Standard Stock") || parts[0];
-    if(category === "magazine") return parts.find(p => p.name === "PMAG 30") || parts[0];
-    return parts[0];
+body {
+    background: #000000;
+    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+    color: #f5f5f7;
+    line-height: 1.5;
 }
 
-let currentBuildMode = "pro";
-let currentWeapon = weaponsDatabase[0];
-let customSelectedParts = { optic: null, muzzle: null, grip: null, stock: null, magazine: null };
-
-function renderWeaponList() {
-    const container = document.getElementById("weaponButtonsList");
-    if(!container) return;
-    container.innerHTML = weaponsDatabase.map(w => `<button class="weapon-btn ${currentWeapon.id === w.id ? 'active-weapon' : ''}" data-id="${w.id}">${w.name}</button>`).join('');
-    document.querySelectorAll('.weapon-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const wid = btn.getAttribute('data-id');
-            currentWeapon = weaponsDatabase.find(w => w.id === wid) || weaponsDatabase[0];
-            renderWeaponList();
-            renderPartsBuilder();
-            updateStatsPreview();
-        });
-    });
-    updateStatsPreview();
+/* Apple-style glassmorphism + clean militarism */
+.mil-nav {
+    background: rgba(18, 18, 20, 0.92);
+    backdrop-filter: blur(24px);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
+    padding: 0.8rem 2.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-function updateStatsPreview() {
-    const preview = document.getElementById("weaponStatsPreview");
-    if(preview) preview.innerHTML = `<strong>${currentWeapon.name}</strong> | DMG:${currentWeapon.dmg} | Recoil:${currentWeapon.recoil} | Ergo:${currentWeapon.ergo} | Drop:${currentWeapon.baseDrop}% | Base:$${currentWeapon.basePrice}`;
+.logo-area h2 {
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    background: linear-gradient(135deg, #f5f5f7, #86868b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-function renderPartsBuilder() {
-    const container = document.getElementById("dynamicPartsContainer");
-    if(!container) return;
-    const allCategories = ["optic", "muzzle", "grip", "stock", "magazine"];
-    if(currentBuildMode === "custom") {
-        let html = '';
-        for(let cat of allCategories) {
-            let parts = attachmentsDB[cat] || [];
-            let selectedVal = customSelectedParts[cat]?.name || "";
-            html += `<div class="part-group"><label><strong>${cat.toUpperCase()}</strong></label><select class="part-select" data-cat="${cat}">`;
-            html += `<option value="">-- None / Default --</option>`;
-            parts.forEach(p => {
-                html += `<option value="${p.name}" ${selectedVal === p.name ? 'selected' : ''}>${p.name} | Recoil:${p.statBonus.recoil||0} Ergo:${p.statBonus.ergo||0} | $${p.price} (${p.drop}%)</option>`;
-            });
-            html += `</select></div>`;
-        }
-        container.innerHTML = html;
-        document.querySelectorAll('.part-select').forEach(select => {
-            select.addEventListener('change', (e) => {
-                const cat = select.getAttribute('data-cat');
-                const partName = select.value;
-                if(partName && attachmentsDB[cat]) customSelectedParts[cat] = attachmentsDB[cat].find(p => p.name === partName);
-                else customSelectedParts[cat] = null;
-                renderBuildStats();
-            });
-        });
-    } else {
-        let partsList = allCategories.map(cat => ({cat, part: currentBuildMode === "pro" ? getBestPart(cat) : getPopularPart(cat)}));
-        let html = `<div style="display:flex; flex-wrap:wrap; gap:12px;">`;
-        partsList.forEach(({cat, part}) => {
-            if(part) html += `<div class="part-group" style="flex:1;"><strong>${cat}</strong><div>${part.name}</div><div class="stat-row">💰 $${part.price} 🎲 ${part.drop}%</div></div>`;
-            else html += `<div>${cat}: standard</div>`;
-        });
-        html += `</div>`;
-        container.innerHTML = html;
-        renderBuildStats(partsList);
+.logo-area span {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: #8e8e93;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1.4rem;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #e8e8ed;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(4px);
+}
+
+.tab-btn.active {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+.tab-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.main-stage {
+    max-width: 1440px;
+    margin: 1.8rem auto;
+    padding: 0 1.8rem;
+}
+
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-pane.active-pane {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
     }
-    if(currentBuildMode !== "custom") renderBuildStats();
-}
-
-function renderBuildStats(forcedParts = null) {
-    let totalRecoil = currentWeapon.recoil;
-    let totalErgo = currentWeapon.ergo;
-    let totalPrice = currentWeapon.basePrice;
-    let partsUsed = [];
-    const categories = ["optic", "muzzle", "grip", "stock", "magazine"];
-    if(currentBuildMode === "pro") {
-        categories.forEach(cat => { const part = getBestPart(cat); if(part) { totalRecoil += (part.statBonus.recoil || 0); totalErgo += (part.statBonus.ergo || 0); totalPrice += part.price; partsUsed.push(part.name); } });
-    } else if(currentBuildMode === "popular") {
-        categories.forEach(cat => { const part = getPopularPart(cat); if(part) { totalRecoil += (part.statBonus.recoil || 0); totalErgo += (part.statBonus.ergo || 0); totalPrice += part.price; partsUsed.push(part.name); } });
-    } else if(currentBuildMode === "custom") {
-        Object.values(customSelectedParts).forEach(part => { if(part) { totalRecoil += (part.statBonus.recoil || 0); totalErgo += (part.statBonus.ergo || 0); totalPrice += part.price; partsUsed.push(part.name); } });
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    const resultDiv = document.getElementById("buildResultStats");
-    if(resultDiv) resultDiv.innerHTML = `<strong>⚙️ FINAL STATS</strong><br>🔻 Recoil: ${totalRecoil} | 🧘 Ergonomics: ${totalErgo} | 💰 Total Cost: $${totalPrice.toLocaleString()}<br>🧩 Attachments: ${partsUsed.length ? partsUsed.join(", ") : "standard config"}<br>🎯 Base drop rate (weapon): ${currentWeapon.baseDrop}% at high-tier crates.`;
 }
 
-// FULL GEAR TABLE (noob)
-const fullGear = [
-    {name:"RPC Carrier",price:28500,drop:7.2,loc:"YBL-1 Bunker"},{name:"JPC 2.0",price:18400,drop:14.5,loc:"Ban Pa/Tiger Bay"},{name:"Ops-Core FAST",price:22300,drop:6.8,loc:"Midnight Sapphire"},{name:"M4 SOPMOD",price:39800,drop:8.3,loc:"YBL-1 Weapon Room"},{name:"AK-12",price:17900,drop:22,loc:"Ban Pa outskirts"},{name:"HK416",price:47500,drop:4.2,loc:"Fort Narith"},{name:"MDR",price:48900,drop:3.9,loc:"Boss area"},{name:"Vector SMG",price:39800,drop:6.7,loc:"Tiger Bay Marina"},{name:"EOTech EXPS3",price:8700,drop:18.2,loc:"Weapon crates"},{name:"PVS-31 NVG",price:32200,drop:2.9,loc:"Night Boss"}
-];
-
-function renderFullGear() {
-    const cont = document.getElementById("fullGearTable");
-    if(cont) cont.innerHTML = fullGear.map(g => `<div style="background:#141416; border-radius:18px; padding: 10px;"><strong>${g.name}</strong> — 💰 $${g.price} — 🎲 ${g.drop}% — 📍 ${g.loc}</div>`).join('');
+/* Cards Apple style */
+.card-mil {
+    background: rgba(28, 28, 30, 0.75);
+    backdrop-filter: blur(20px);
+    border-radius: 28px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+    padding: 1.8rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
-// MAP ZONE DATA + HIGHLIGHT
-const zonesData = {
-    ybl: { name:"YBL-1 Bunker", faction:"Crimson/Mithras", loot:"M4 SOPMOD (8.3%), RPC (7.2%), M855A1 (27%)", coords: {x:18, y:22, w:22, h:12} },
-    tiger: { name:"Tiger Bay Marina", faction:"Lamang", loot:"Ops-Core FAST (6%), EOTech (18%), JPC 2.0", coords: {x:48, y:38, w:19, h:10} },
-    banpa: { name:"Ban Pa", faction:"Mithras", loot:"AFG grip (22%), AK-12 (22%), JPC 2.0 (14.5%)", coords: {x:72, y:52, w:17, h:10} },
-    fort: { name:"Fort Narith", faction:"Crimson", loot:"DDM4 (3.5%), SRVV brake, repair kits", coords: {x:12, y:68, w:20, h:11} },
-    midnight: { name:"Midnight Sapphire", faction:"Elite Guard", loot:"NVGs (2.9%), Raptor Suppressor (4.2%), GPNVG", coords: {x:62, y:78, w:20, h:10} }
-};
-
-function renderMapZones() {
-    const zoneContainer = document.getElementById("zoneListContainer");
-    if(!zoneContainer) return;
-    zoneContainer.innerHTML = Object.keys(zonesData).map(zk => `<button class="zone-btn" data-zone="${zk}">${zonesData[zk].name}</button>`).join('');
-    const overlayDiv = document.getElementById("mapOverlayRects");
-    document.querySelectorAll('.zone-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const zoneId = btn.getAttribute('data-zone');
-            const zone = zonesData[zoneId];
-            if(zone && overlayDiv) {
-                document.getElementById("zoneLootDetail").innerHTML = `<strong>📍 ${zone.name}</strong> | 🚩 Faction: ${zone.faction}<br>🎁 LOOT: ${zone.loot}<br>✨ Recommended farm: night raids.`;
-                document.querySelectorAll('.zone-btn').forEach(z => z.classList.remove('active-zone'));
-                btn.classList.add('active-zone');
-                const c = zone.coords;
-                overlayDiv.innerHTML = `<div style="position:absolute; left:${c.x}%; top:${c.y}%; width:${c.w}%; height:${c.h}%; background:rgba(255,255,255,0.25); border:2px solid white; border-radius:16px; pointer-events:none; box-shadow:0 0 12px rgba(255,255,255,0.7); backdrop-filter:blur(1px);"></div>`;
-            } else if(overlayDiv) overlayDiv.innerHTML = "";
-        });
-    });
+.section-title {
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    margin-bottom: 1.2rem;
+    border-left: 3px solid #ffffff;
+    padding-left: 1rem;
 }
 
-function initTabs() {
-    const tabs = document.querySelectorAll('.tab-btn');
-    const panes = { welcome: document.getElementById('welcomePane'), builder: document.getElementById('builderPane'), map: document.getElementById('mapPane') };
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const target = tab.getAttribute('data-tab');
-            Object.values(panes).forEach(p => p.classList.remove('active-pane'));
-            panes[target].classList.add('active-pane');
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            if(target === 'builder') { renderWeaponList(); renderPartsBuilder(); renderBuildStats(); }
-            if(target === 'map') renderMapZones();
-        });
-    });
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
-function initBuildMode() {
-    document.querySelectorAll('.build-type').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.build-type').forEach(b => b.classList.remove('active-build'));
-            btn.classList.add('active-build');
-            currentBuildMode = btn.getAttribute('data-mode');
-            customSelectedParts = { optic: null, muzzle: null, grip: null, stock: null, magazine: null };
-            renderPartsBuilder();
-            renderBuildStats();
-        });
-    });
+/* Builder layout */
+.builder-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initTabs();
-    initBuildMode();
-    renderFullGear();
-    renderWeaponList();
-    renderPartsBuilder();
-    renderMapZones();
-    updateStatsPreview();
-});
+.weapon-selector {
+    flex: 1.2;
+    background: rgba(20, 20, 24, 0.7);
+    border-radius: 28px;
+    padding: 1.4rem;
+    backdrop-filter: blur(8px);
+}
+
+.parts-panel {
+    flex: 2.5;
+    background: rgba(20, 20, 24, 0.7);
+    border-radius: 28px;
+    padding: 1.4rem;
+}
+
+.weapon-list-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0;
+}
+
+.weapon-btn {
+    background: #2c2c2e;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 32px;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.weapon-btn.active-weapon {
+    background: #ffffff;
+    color: #000000;
+}
+
+.part-group {
+    background: #1c1c1e;
+    border-radius: 20px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.part-select {
+    width: 100%;
+    background: #2c2c2e;
+    border: 0.5px solid #3a3a3c;
+    color: white;
+    padding: 0.6rem;
+    border-radius: 28px;
+    margin-top: 8px;
+    font-family: inherit;
+}
+
+.stat-row {
+    font-size: 0.75rem;
+    display: flex;
+    gap: 1rem;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    color: #aeaeb2;
+}
+
+.badge-stat {
+    background: #3a3a3c;
+    border-radius: 20px;
+    padding: 2px 10px;
+}
+
+.build-switch {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.build-type {
+    background: #1c1c1e;
+    border: 0.5px solid #3a3a3c;
+    border-radius: 40px;
+    padding: 6px 22px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.build-type.active-build {
+    background: #ffffff;
+    color: black;
+    border-color: white;
+}
+
+/* Map area */
+.map-container {
+    background: #0e0e10;
+    border-radius: 32px;
+    padding: 1.2rem;
+    text-align: center;
+}
+
+.static-map-svg {
+    background: #101214;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.zone-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 1.2rem 0;
+    justify-content: center;
+}
+
+.zone-btn {
+    background: #1c1c1e;
+    border: 0.5px solid #3a3a3c;
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+}
+
+.zone-btn.active-zone {
+    background: #ffffff;
+    color: #000000;
+    border-color: white;
+}
+
+.loot-info-panel {
+    background: #141416;
+    border-radius: 24px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.7rem;
+    padding: 2rem;
+    color: #6c6c70;
+    border-top: 0.5px solid #2c2c2e;
+    margin-top: 2rem;
+}
+
+hr {
+    border-color: #2c2c2e;
+}
+
+@media (max-width: 800px) {
+    .mil-nav {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}
