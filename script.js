@@ -1,176 +1,185 @@
-// -------------------- GEAR DATABASE (name, price, dropChance%, locations, category, synergy rating)
+// ---------- GEAR DATABASE ----------
 const gearDatabase = [
-    { id: 1, name: "RPC Tactical Carrier", price: 28500, dropChance: 7.2, locations: "YBL-1 Weapon Room, Fort Narith HQ", category: "Armor/Vest", bestFor: "endgame", weight: "heavy" },
-    { id: 2, name: "JPC 2.0 Plate Carrier", price: 18400, dropChance: 14.5, locations: "Tiger Bay Marina, Ban Pa elite", category: "Armor/Vest", bestFor: "balanced", weight: "medium" },
-    { id: 3, name: "Ops-Core FAST Helmet", price: 22300, dropChance: 6.8, locations: "Midnight Sapphire, FN MSR heli crash", category: "Helmet", bestFor: "head protection" },
-    { id: 4, name: "M4 SOPMOD Block II", price: 39800, dropChance: 8.3, locations: "YBL-1 weapons crate, Boss container", category: "Assault Rifle", bestFor: "all-round" },
-    { id: 5, name: "AK-12", price: 17900, dropChance: 22.0, locations: "Common AI kills, Ban Pa outskirts", category: "AR", bestFor: "budget" },
-    { id: 6, name: "DDM4 (Rare)", price: 51200, dropChance: 3.5, locations: "Fort Narith commander's room", category: "AR", bestFor: "high pen" },
-    { id: 7, name: "EOTech EXPS3 (Holo)", price: 8700, dropChance: 18.2, locations: "Weapon boxes, Tiger Bay cargo", category: "Optic", bestFor: "CQC" },
-    { id: 8, name: "AFG Angled Foregrip", price: 4200, dropChance: 22.0, locations: "Ban Pa hidden caches, supply drop", category: "Grip", bestFor: "recoil" },
-    { id: 9, name: "Raptor 556 SD Suppressor", price: 14300, dropChance: 4.2, locations: "Midnight Sapphire basement", category: "Muzzle", bestFor: "stealth" },
-    { id: 10, name: "PVS-31 NVGs", price: 32200, dropChance: 2.9, locations: "Night heli crash event, Boss stash", category: "Headgear", bestFor: "night ops" },
-    { id: 11, name: "GPNVG-18 (Quad)", price: 54600, dropChance: 1.2, locations: "Secret bunker FN MSR", category: "NVG", bestFor: "elite" },
-    { id: 12, name: "M855A1 Ammo (60rd)", price: 3400, dropChance: 27.5, locations: "Loose loot YBL-1, ammo boxes", category: "Ammo", bestFor: "penetration" }
+    { name: "RPC Tactical Carrier", price: 28500, dropChance: 7.2, locations: "YBL-1, Fort Narith", category: "Armor" },
+    { name: "JPC 2.0 Carrier", price: 18400, dropChance: 14.5, locations: "Tiger Bay, Ban Pa", category: "Armor" },
+    { name: "Ops-Core FAST Helmet", price: 22300, dropChance: 6.8, locations: "Midnight Sapphire", category: "Helmet" },
+    { name: "M4 SOPMOD", price: 39800, dropChance: 8.3, locations: "YBL-1 crate", category: "AR" },
+    { name: "EOTech EXPS3", price: 8700, dropChance: 18.2, locations: "Weapon boxes", category: "Optic" },
+    { name: "AFG Foregrip", price: 4200, dropChance: 22, locations: "Ban Pa", category: "Grip" },
+    { name: "Raptor Suppressor", price: 14300, dropChance: 4.2, locations: "Midnight", category: "Muzzle" }
 ];
 
-// additional location details (strategy list)
-const strategiesArray = [
-    "▶︎ RUN YBL-1 BACK TO BACK: rush lower weapon room, high RPC & M4 chance (7-8%). Reset raids quickly.",
-    "▶︎ FARM BAN PA AT NIGHT: military crates respawn every 20min → AFG & JPC 2.0 (14% drop).",
-    "▶︎ TRADE WITH OTHER OPERATORS: join faction discord, barter rare NVGs for RPC+suppressor.",
-    "▶︎ BOSS FARMING (Fort Narith boss): 12% chance to drop special DDM4 + quad tubes.",
-    "▶︎ LOOT ROUTE: Tiger Bay Marina → YBL-1 exit → extract with high-tier plates, sell duplicate gear."
-];
+const strategiesArray = ["RUN YBL-1 LOOP → RPC/M4", "BOSS FARM Fort Narith", "NIGHT BAN PA for AFG"];
+const bestCombos = [{ title: "META RAID", loadout: "RPC + OpsCore + M4 + Suppressor", cost: "~84k", efficiency: "S-Tier" }];
 
-// BEST COMBINATIONS: based on meta synergy
-const bestCombos = [
-    { title: "🏅 ENDGAME RAID META", loadout: "RPC Carrier + Ops-Core FAST + M4 SOPMOD w/ Suppressor + AFG grip", cost: "~84k $", efficiency: "S-Tier, max survivability + recoil control. Obtain RPC from YBL-1 (7.2%)" },
-    { title: "💰 BUDGET SNIPER (early wipe)", loadout: "JPC 2.0 + AK-12 + EOTech + standard ammo", cost: "~42k $", efficiency: "High drop chance (AK12 22%). Farm Ban Pa for quick upgrades." },
-    { title: "🌙 NIGHT DOMINATION", loadout: "PVS-31 NVGs (or GPNVG) + RPC + suppressed DDM4", cost: "~95k $", efficiency: "Ultimate stealth. Get NVGs from boss night crate (2.9%)." },
-    { title: "⚡ SPEED & LOOT RUNNER", loadout: "JPC 2.0 (light) + MP5/MPX + no helmet / Fast helmet", cost: "~32k $", efficiency: "Mobility focused, grab M855A1 ammo for quick kills." }
-];
+// ---------- WEAPON PART DATABASE (todas las partes para construir desde cero) ----------
+const weaponPartsDB = {
+    receiver: [
+        { name: "M4 Standard Upper", statAcc: 5, recoilCtrl: 2, price: 4200, rof: 750, img: "🔧" },
+        { name: "DDM4 Receiver (Elite)", statAcc: 12, recoilCtrl: 8, price: 9800, rof: 800, img: "⚙️" }
+    ],
+    barrel: [
+        { name: "14.5\" Carbine", statAcc: 3, recoilCtrl: 4, price: 3100, rof: 750, img: "🔫" },
+        { name: "20\" Heavy Barrel", statAcc: 10, recoilCtrl: 9, price: 5700, rof: 700, img: "🎯" }
+    ],
+    handguard: [
+        { name: "Mlok Rail", statAcc: 2, recoilCtrl: 3, price: 1900, rof: 0, img: "🛡️" },
+        { name: "RIS II Quad", statAcc: 5, recoilCtrl: 7, price: 4200, rof: 0, img: "🔲" }
+    ],
+    stock: [
+        { name: "Standard CAR Stock", statAcc: 1, recoilCtrl: 2, price: 1200, rof: 0, img: "📌" },
+        { name: "Magpul CTR", statAcc: 4, recoilCtrl: 6, price: 3400, rof: 0, img: "🎯" }
+    ],
+    grip: [
+        { name: "Vertical Grip", statAcc: 2, recoilCtrl: 5, price: 2100, rof: 0, img: "✋" },
+        { name: "Angled Foregrip", statAcc: 4, recoilCtrl: 7, price: 3900, rof: 0, img: "🔻" }
+    ],
+    optic: [
+        { name: "Red Dot (EOTech)", statAcc: 8, recoilCtrl: 1, price: 5400, rof: 0, img: "🔭" },
+        { name: "ACOG 4x Scope", statAcc: 15, recoilCtrl: 0, price: 8700, rof: 0, img: "👁️" }
+    ],
+    muzzle: [
+        { name: "A2 Flash Hider", statAcc: 1, recoilCtrl: 2, price: 800, rof: 0, img: "💨" },
+        { name: "Suppressor SD", statAcc: 3, recoilCtrl: 8, price: 6500, rof: -50, img: "🤫" }
+    ],
+    magazine: [
+        { name: "30rd PMAG", statAcc: 0, recoilCtrl: 0, price: 900, rof: 0, img: "📀" },
+        { name: "60rd Drum", statAcc: -2, recoilCtrl: -1, price: 3200, rof: 0, img: "⚡" }
+    ]
+};
 
-// function to render gear list with full details and interactive buttons
-function renderGearListWithButtons() {
-    const container = document.getElementById('gearListContainer');
-    if(!container) return;
-    let html = `<div class="gear-grid">`;
-    gearDatabase.forEach(gear => {
-        html += `
-            <div class="gear-item" data-gear="${gear.name}">
-                <div class="gear-name">
-                    <span>🔸 ${gear.name}</span>
-                    <span class="stat-badge">${gear.category}</span>
-                </div>
-                <div class="details-row">
-                    <span class="price">💰 $${gear.price.toLocaleString()}</span>
-                    <span class="drop-rate">📊 Drop: ${gear.dropChance}%</span>
-                    <span class="location">📍 ${gear.locations}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items:center; margin-top: 8px;">
-                    <span style="font-size:0.7rem;">⚡ ${gear.bestFor}</span>
-                    <button class="btn-tactic tip-btn" data-item="${gear.name}">🎯 obtain strategy</button>
-                </div>
-            </div>
-        `;
-    });
-    html += `</div><div style="margin-top:12px;"><div id="liveTipMsg" style="background:#212529;border-radius:20px;padding:6px 12px;font-size:0.75rem;"></div></div>`;
-    container.innerHTML = html;
+// Builds Predefinidas: META, POPULAR, CUSTOM (custom se guarda localmente)
+const metaBuild = {
+    receiver: "DDM4 Receiver (Elite)", barrel: "20\" Heavy Barrel", handguard: "RIS II Quad",
+    stock: "Magpul CTR", grip: "Angled Foregrip", optic: "ACOG 4x Scope",
+    muzzle: "Suppressor SD", magazine: "30rd PMAG"
+};
+const popularBuild = {
+    receiver: "M4 Standard Upper", barrel: "14.5\" Carbine", handguard: "Mlok Rail",
+    stock: "Standard CAR Stock", grip: "Vertical Grip", optic: "Red Dot (EOTech)",
+    muzzle: "A2 Flash Hider", magazine: "30rd PMAG"
+};
 
-    // attach event listeners to obtain buttons
-    const btns = document.querySelectorAll('.tip-btn');
-    const tipMsgDiv = document.getElementById('liveTipMsg');
-    btns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const itemName = btn.getAttribute('data-item');
-            const gearObj = gearDatabase.find(g => g.name === itemName);
-            if(gearObj && tipMsgDiv) {
-                tipMsgDiv.innerHTML = `🔔 TACTICAL INTEL: ${gearObj.name} — Drop rate ${gearObj.dropChance}% — Farm "${gearObj.locations}". Estimated price $${gearObj.price.toLocaleString()}. Best strategy: loot hotspots, kill HVTs.`;
-            } else if(tipMsgDiv) {
-                tipMsgDiv.innerHTML = `⚠️ No further intel, but check high-tier weapon crates.`;
-            }
-            setTimeout(() => {
-                if(tipMsgDiv) tipMsgDiv.style.opacity = '0.7';
-            }, 3000);
-            tipMsgDiv.style.opacity = '1';
-        });
-    });
+let currentBuildType = "meta";
+let customBuild = JSON.parse(localStorage.getItem("gzw_custom_build")) || { ...popularBuild };
+
+// Helper para obtener objeto por nombre
+function getPartObj(category, partName) {
+    return weaponPartsDB[category].find(p => p.name === partName) || weaponPartsDB[category][0];
 }
 
-// render best combos dynamically
-function renderBestCombos() {
-    const comboDiv = document.getElementById('bestCombosDisplay');
-    if(!comboDiv) return;
-    let comboHtml = `<div style="display:flex; flex-direction:column; gap:12px;">`;
-    bestCombos.forEach(combo => {
-        comboHtml += `
-            <div style="background:#0a0f16; border-radius:16px; padding:10px;">
-                <div style="font-weight:bold; color:#c5e07b;">${combo.title}</div>
-                <div>${combo.loadout}</div>
-                <div style="display:flex; justify-content:space-between; margin-top:6px;">
-                    <span>💰 ${combo.cost}</span>
-                    <span class="badge">${combo.efficiency}</span>
-                </div>
-            </div>
-        `;
-    });
-    comboHtml += `</div>`;
-    comboDiv.innerHTML = comboHtml;
-}
-
-// render strategies
-function renderStrategies() {
-    const stratList = document.getElementById('strategiesList');
-    if(stratList) {
-        let items = '';
-        strategiesArray.forEach(strat => {
-            items += `<li>${strat}</li>`;
-        });
-        stratList.innerHTML = items;
-    }
-}
-
-// probability panel
-function updateProbabilityPanel() {
-    const comboInfoDiv = document.getElementById('bestCombosDisplay');
-    if(comboInfoDiv) {
-        const m4Chance = gearDatabase.find(g=>g.name === "M4 SOPMOD Block II")?.dropChance || 8.3;
-        const rpcChance = gearDatabase.find(g=>g.name === "RPC Tactical Carrier")?.dropChance || 7.2;
-        if(!comboInfoDiv.querySelector('.stat-prob')) {
-            const probDiv = document.createElement('div');
-            probDiv.className = 'stat-prob';
-            probDiv.style.marginTop = '12px';
-            probDiv.style.background = "#0e131c";
-            probDiv.style.padding = "8px";
-            probDiv.style.borderRadius = "16px";
-            probDiv.innerHTML = `🎲 PROBABILITY SIM: M4 SOPMOD drop ~${m4Chance}% per crate. With 5 crates ~ ${(1 - Math.pow(1 - (m4Chance/100), 5)).toFixed(2)*100}% chance. RPC ${rpcChance}% → farm high tier.`;
-            comboInfoDiv.appendChild(probDiv);
+// Calcular estadísticas totales de un build
+function calculateStats(buildObj) {
+    let totalAcc = 0, totalRecoil = 0, totalRof = 750, totalPrice = 0;
+    for (let [cat, partName] of Object.entries(buildObj)) {
+        let part = getPartObj(cat, partName);
+        if (part) {
+            totalAcc += part.statAcc;
+            totalRecoil += part.recoilCtrl;
+            totalRof += part.rof || 0;
+            totalPrice += part.price;
         }
     }
+    return { accuracy: Math.min(95, 50 + totalAcc), recoil: Math.min(90, 40 + totalRecoil), rof: totalRof, price: totalPrice };
 }
 
-// loadout advisor
-function createStyleSelector() {
-    const lootTipsDiv = document.getElementById('lootTips');
-    if(lootTipsDiv && !document.getElementById('customAdvisor')) {
-        const advisorBlock = document.createElement('div');
-        advisorBlock.id = 'customAdvisor';
-        advisorBlock.style.marginTop = '16px';
-        advisorBlock.style.background = '#0a0e14';
-        advisorBlock.style.borderRadius = '18px';
-        advisorBlock.style.padding = '12px';
-        advisorBlock.innerHTML = `
-            <strong>🎛️ LOADOUT ADVISOR (click to compare):</strong><br>
-            <select id="playstyleSelect" style="background:#1e2a1a; border:1px solid #8b9a46; color:white; padding:6px; border-radius:20px; margin:6px 0;">
-                <option value="assault">Assault (CQB rush)</option>
-                <option value="sniper">Recon / DMR</option>
-                <option value="budget">Budget starter</option>
-            </select>
-            <button id="adviseBtn" class="btn-tactic">Get recommendation</button>
-            <div id="adviseResult" style="margin-top:10px; font-size:0.8rem;"></div>
-        `;
-        lootTipsDiv.parentNode.insertBefore(advisorBlock, lootTipsDiv.nextSibling);
-        document.getElementById('adviseBtn')?.addEventListener('click', () => {
-            const style = document.getElementById('playstyleSelect').value;
-            let msg = '';
-            if(style === 'assault') msg = "✓ M4 SOPMOD + RPC + EOTech (close quarters). farm YBL-1 for RPC (7.2%) or tiger bay for JPC backup.";
-            else if(style === 'sniper') msg = "✓ DDM4 with suppressor + Ops-Core helmet. Loot Fort Narith commander room (3.5% DDM4) for long range engagements.";
-            else msg = "✓ AK-12 (22% drop) + JPC 2.0 (14.5%) from Ban Pa & military crates. Best budget combo and good survivability.";
-            document.getElementById('adviseResult').innerHTML = `<span class="highlight">${msg}</span>`;
+// Renderizar todas las partes clickeables
+function renderPartsGrid(selectedBuildObj) {
+    const grid = document.getElementById("partsGrid");
+    if (!grid) return;
+    let html = "";
+    for (let [category, parts] of Object.entries(weaponPartsDB)) {
+        html += `<div style="grid-column: 1/-1; margin-top:6px;"><strong>📌 ${category.toUpperCase()}</strong></div>`;
+        parts.forEach(part => {
+            const isSelected = (selectedBuildObj[category] === part.name);
+            html += `<div class="part-card ${isSelected ? 'selected-part' : ''}" data-category="${category}" data-partname="${part.name}">
+                        <span>${part.img} ${part.name}</span>
+                        <span style="font-size:0.7rem;">💰${part.price} | 🎯+${part.statAcc} | ⚡+${part.recoilCtrl}</span>
+                    </div>`;
         });
     }
+    grid.innerHTML = html;
+
+    // Eventos para personalización (solo si estamos en custom build)
+    document.querySelectorAll('.part-card').forEach(card => {
+        card.addEventListener('click', () => {
+            if (currentBuildType !== "custom") {
+                document.getElementById("customFeedback").innerHTML = "⚠️ Switch to CUSTOM BUILD to modify parts!";
+                return;
+            }
+            const category = card.dataset.category;
+            const partName = card.dataset.partname;
+            customBuild[category] = partName;
+            localStorage.setItem("gzw_custom_build", JSON.stringify(customBuild));
+            updateWeaponDisplay(customBuild, "CUSTOM WEAPON");
+            renderPartsGrid(customBuild);
+            document.getElementById("customFeedback").innerHTML = "✅ Custom part changed!";
+            setTimeout(() => document.getElementById("customFeedback").innerHTML = "", 1500);
+        });
+    });
 }
 
-// main init all components
-function initApp() {
-    renderGearListWithButtons();
-    renderBestCombos();
-    renderStrategies();
-    updateProbabilityPanel();
-    createStyleSelector();
+// Actualizar preview y stats
+function updateWeaponDisplay(buildObj, weaponTitle) {
+    document.getElementById("weaponNameDisplay").innerText = weaponTitle;
+    const stats = calculateStats(buildObj);
+    document.getElementById("accuracyStat").innerText = stats.accuracy;
+    document.getElementById("recoilStat").innerText = stats.recoil;
+    document.getElementById("rofStat").innerText = stats.rof;
+    document.getElementById("priceStat").innerText = stats.price;
 }
 
-// ejecutar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initApp);
+// Cargar build (meta, popular o custom)
+function loadBuild(type) {
+    currentBuildType = type;
+    let activeBuild, weaponName;
+    if (type === "meta") {
+        activeBuild = metaBuild;
+        weaponName = "🏅 META BUILD | DDM4 ELITE";
+    } else if (type === "popular") {
+        activeBuild = popularBuild;
+        weaponName = "🔥 POPULAR BUILD | RELIABLE M4";
+    } else {
+        activeBuild = customBuild;
+        weaponName = "🎨 CUSTOM BUILD | YOUR CONFIG";
+    }
+    updateWeaponDisplay(activeBuild, weaponName);
+    renderPartsGrid(activeBuild);
+    // resaltar botón
+    document.querySelectorAll('.build-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.build-btn[data-build="${type}"]`).classList.add('active');
+}
+
+// Guardar custom (ya se guarda automáticamente, pero forzamos)
+document.addEventListener("DOMContentLoaded", () => {
+    // Render gear, combos, strats
+    const gearContainer = document.getElementById("gearListContainer");
+    if (gearContainer) {
+        gearContainer.innerHTML = gearDatabase.map(g => `<div class="gear-item"><div class="gear-name">${g.name}<span class="badge">${g.category}</span></div><div class="details-row"><span class="price">💰$${g.price}</span><span class="drop-rate">📊${g.dropChance}%</span><span class="location">📍${g.locations}</span></div></div>`).join('');
+    }
+    document.getElementById("bestCombosDisplay").innerHTML = bestCombos.map(c => `<div><strong>${c.title}</strong><br>${c.loadout} - ${c.cost} - ${c.efficiency}</div>`).join('');
+    document.getElementById("strategiesList").innerHTML = strategiesArray.map(s => `<li>${s}</li>`).join('');
+    document.getElementById("lootTips").innerHTML = `<p>🔹 YBL-1: M4 12% / RPC 8%<br>🔹 Tiger Bay marina: OpsCore helmet 6%<br>🔹 Ban Pa: AFG 22% </p>`;
+
+    // Weapon builder init
+    loadBuild("meta");
+    const saveBtn = document.getElementById("saveCustomBtn");
+    if (saveBtn) {
+        saveBtn.addEventListener("click", () => {
+            if (currentBuildType === "custom") {
+                localStorage.setItem("gzw_custom_build", JSON.stringify(customBuild));
+                document.getElementById("customFeedback").innerHTML = "💾 Custom build saved permanently!";
+            } else {
+                document.getElementById("customFeedback").innerHTML = "⛔ Switch to CUSTOM mode to save.";
+            }
+            setTimeout(() => document.getElementById("customFeedback").innerHTML = "", 2000);
+        });
+    }
+    // Build selector events
+    document.querySelectorAll('.build-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const type = btn.dataset.build;
+            loadBuild(type);
+        });
+    });
+});
