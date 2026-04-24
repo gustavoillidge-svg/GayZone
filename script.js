@@ -247,4 +247,73 @@ function renderMapZones() {
             if (zone && highlighter) {
                 const c = zone.coords;
                 highlighter.innerHTML = `
-                    <div style="position: absolute; left: ${c.x}%; top:
+                    <div style="position: absolute; left: ${c.x}%; top: ${c.y}%; width: ${c.w}%; height: ${c.h}%; 
+                                background: rgba(255, 255, 255, 0.2); border: 3px solid #fff; 
+                                border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.6); backdrop-filter: blur(2px);">
+                    </div>
+                `;
+                details.innerHTML = `
+                    <strong>📍 ${zone.name}</strong><br>
+                    🚩 Faction: ${zone.faction}<br>
+                    🎁 Loot: ${zone.loot}<br>
+                    ✨ Recommended: Night raids for higher spawn rates
+                `;
+            }
+        });
+    });
+}
+
+// ========== TABS ==========
+function initTabs() {
+    const tabs = document.querySelectorAll(".nav-item");
+    const pages = {
+        welcome: document.getElementById("welcome"),
+        builder: document.getElementById("builder"),
+        map: document.getElementById("map")
+    };
+    
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            const target = tab.dataset.tab;
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            Object.values(pages).forEach(page => page.classList.remove("active"));
+            if (pages[target]) pages[target].classList.add("active");
+            
+            // Re-renderizar contenido dinámico cuando se cambia de pestaña
+            if (target === "builder") {
+                renderWeapons();
+                renderAttachments();
+            }
+            if (target === "map") {
+                renderMapZones();
+            }
+        });
+    });
+}
+
+// ========== BUILD MODES ==========
+function initModes() {
+    const modes = document.querySelectorAll(".mode-pill");
+    modes.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modes.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentMode = btn.dataset.mode;
+            // Resetear custom parts al cambiar de modo
+            customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: null };
+            renderAttachments();
+        });
+    });
+}
+
+// ========== INITIALIZATION ==========
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("GZW Armory Core initialized");
+    renderGear();
+    renderWeapons();
+    renderAttachments();
+    renderMapZones();
+    initTabs();
+    initModes();
+});
