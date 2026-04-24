@@ -46,7 +46,57 @@ const attachments = {
     ]
 };
 
-// ========== GEAR DATABASE ==========
+// ========== COMPLETE LOOT DATABASE (TODO el loot del juego) ==========
+const lootDatabase = [
+    // YBL-1 Bunker
+    { name: "M4 SOPMOD Block II", zone: "ybl", category: "Weapon", dropRate: 8.3, price: 39800, loc: "YBL-1 Bunker" },
+    { name: "RPC Carrier", zone: "ybl", category: "Armor", dropRate: 7.2, price: 28500, loc: "YBL-1 Bunker" },
+    { name: "M855A1 Ammo (60rd)", zone: "ybl", category: "Ammo", dropRate: 27.5, price: 3400, loc: "YBL-1 Bunker" },
+    { name: "AK-12", zone: "ybl", category: "Weapon", dropRate: 15.0, price: 17900, loc: "YBL-1 Bunker" },
+    
+    // Tiger Bay Marina
+    { name: "Ops-Core FAST Helmet", zone: "tiger", category: "Helmet", dropRate: 6.8, price: 22300, loc: "Tiger Bay Marina" },
+    { name: "EOTech EXPS3", zone: "tiger", category: "Optic", dropRate: 18.2, price: 8700, loc: "Tiger Bay Marina" },
+    { name: "JPC 2.0", zone: "tiger", category: "Armor", dropRate: 10.0, price: 18400, loc: "Tiger Bay Marina" },
+    { name: "MPX SMG", zone: "tiger", category: "Weapon", dropRate: 11.2, price: 26400, loc: "Tiger Bay Marina" },
+    
+    // Ban Pa
+    { name: "AFG Angled Grip", zone: "banpa", category: "Grip", dropRate: 22.0, price: 4200, loc: "Ban Pa" },
+    { name: "AK-12", zone: "banpa", category: "Weapon", dropRate: 22.0, price: 17900, loc: "Ban Pa" },
+    { name: "JPC 2.0", zone: "banpa", category: "Armor", dropRate: 14.5, price: 18400, loc: "Ban Pa" },
+    { name: "Kobra Red Dot", zone: "banpa", category: "Optic", dropRate: 25.0, price: 3100, loc: "Ban Pa" },
+    
+    // Fort Narith
+    { name: "DDM4 (Rare)", zone: "fort", category: "Weapon", dropRate: 3.5, price: 51200, loc: "Fort Narith" },
+    { name: "SRVV Jet Brake", zone: "fort", category: "Muzzle", dropRate: 8.5, price: 6800, loc: "Fort Narith" },
+    { name: "Repair Kit", zone: "fort", category: "Consumable", dropRate: 15.0, price: 5000, loc: "Fort Narith" },
+    { name: "SCAR-H", zone: "fort", category: "Weapon", dropRate: 5.1, price: 45200, loc: "Fort Narith" },
+    
+    // Midnight Sapphire
+    { name: "PVS-31 NVGs", zone: "midnight", category: "NVG", dropRate: 2.9, price: 32200, loc: "Midnight Sapphire" },
+    { name: "Raptor 556 SD", zone: "midnight", category: "Muzzle", dropRate: 4.2, price: 14300, loc: "Midnight Sapphire" },
+    { name: "GPNVG-18 Quad", zone: "midnight", category: "NVG", dropRate: 1.2, price: 54600, loc: "Midnight Sapphire" },
+    { name: "Holosun HS510C", zone: "midnight", category: "Optic", dropRate: 15.3, price: 5200, loc: "Midnight Sapphire" },
+    
+    // Additional loot
+    { name: "6B23 Armor", zone: "banpa", category: "Armor", dropRate: 12.0, price: 12000, loc: "Ban Pa" },
+    { name: "Standard Flash Hider", zone: "tiger", category: "Muzzle", dropRate: 35.0, price: 1200, loc: "Tiger Bay" },
+    { name: "RVG Vertical Grip", zone: "ybl", category: "Grip", dropRate: 28.0, price: 2800, loc: "YBL-1" },
+    { name: "PMAG 30", zone: "tiger", category: "Magazine", dropRate: 38.0, price: 1200, loc: "Tiger Bay" },
+    { name: "Drum Mag 60", zone: "fort", category: "Magazine", dropRate: 7.8, price: 3400, loc: "Fort Narith" },
+    { name: "Magpul CTR Stock", zone: "midnight", category: "Stock", dropRate: 12.0, price: 5600, loc: "Midnight Sapphire" }
+];
+
+// ========== ZONES WITH COORDINATES ==========
+const zones = {
+    ybl: { name: "YBL-1 Bunker", faction: "Crimson/Mithras", coords: { x: 18, y: 22, w: 22, h: 12 } },
+    tiger: { name: "Tiger Bay Marina", faction: "Lamang", coords: { x: 48, y: 38, w: 19, h: 10 } },
+    banpa: { name: "Ban Pa Village", faction: "Mithras", coords: { x: 72, y: 52, w: 17, h: 10 } },
+    fort: { name: "Fort Narith", faction: "Crimson", coords: { x: 12, y: 68, w: 20, h: 11 } },
+    midnight: { name: "Midnight Sapphire", faction: "Elite Guard", coords: { x: 62, y: 78, w: 20, h: 10 } }
+};
+
+// ========== GEAR DATABASE (para welcome) ==========
 const gear = [
     { name: "RPC Carrier", price: 28500, drop: 7.2, loc: "YBL-1 Bunker" },
     { name: "JPC 2.0 Plate Carrier", price: 18400, drop: 14.5, loc: "Ban Pa / Tiger Bay" },
@@ -55,28 +105,26 @@ const gear = [
     { name: "GPNVG-18 Quad", price: 54600, drop: 1.2, loc: "Secret Bunker" },
     { name: "Raptor Suppressor", price: 14300, drop: 4.2, loc: "Midnight Sapphire" },
     { name: "AFG Angled Grip", price: 4200, drop: 22, loc: "Ban Pa" },
-    { name: "M855A1 Ammo", price: 3400, drop: 27.5, loc: "YBL-1" }
+    { name: "M855A1 Ammo", price: 3400, drop: 27.5, loc: "YBL-1" },
+    { name: "DDM4", price: 51200, drop: 3.5, loc: "Fort Narith" },
+    { name: "SCAR-H", price: 45200, drop: 5.1, loc: "Fort Narith" }
 ];
-
-// ========== ZONES ==========
-const zones = {
-    ybl: { name: "YBL-1 Bunker", faction: "Crimson/Mithras", loot: "M4 SOPMOD (8.3%), RPC (7.2%), M855A1 (27%)", coords: { x: 18, y: 22, w: 22, h: 12 } },
-    tiger: { name: "Tiger Bay Marina", faction: "Lamang", loot: "Ops-Core FAST (6%), EOTech (18%), JPC 2.0", coords: { x: 48, y: 38, w: 19, h: 10 } },
-    banpa: { name: "Ban Pa Village", faction: "Mithras", loot: "AFG Grip (22%), AK-12 (22%), JPC 2.0 (14.5%)", coords: { x: 72, y: 52, w: 17, h: 10 } },
-    fort: { name: "Fort Narith", faction: "Crimson", loot: "DDM4 (3.5%), SRVV Brake, Repair Kits", coords: { x: 12, y: 68, w: 20, h: 11 } },
-    midnight: { name: "Midnight Sapphire", faction: "Elite Guard", loot: "NVGs (2.9%), Raptor Suppressor (4.2%)", coords: { x: 62, y: 78, w: 20, h: 10 } }
-};
 
 // ========== STATE ==========
 let currentMode = "pro";
 let currentWeapon = weapons[0];
 let customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: null };
+let currentZoom = 1;
+let isDragging = false;
+let dragStart = { x: 0, y: 0 };
+let currentTranslate = { x: 0, y: 0 };
+let currentHighlightedZone = null;
+let currentSelectedLoot = null;
 
-// ========== RENDER GEAR ==========
+// ========== RENDER GEAR (welcome) ==========
 function renderGear() {
     const container = document.getElementById("gearGrid");
     if (!container) return;
-    
     container.innerHTML = gear.map(g => `
         <div class="gear-item">
             <span class="gear-name">${g.name}</span>
@@ -91,7 +139,6 @@ function renderGear() {
 function renderWeapons() {
     const container = document.getElementById("weaponSelector");
     if (!container) return;
-    
     container.innerHTML = weapons.map(w => `
         <button class="weapon-btn ${currentWeapon.id === w.id ? "active" : ""}" data-id="${w.id}">
             ${w.name}
@@ -106,7 +153,6 @@ function renderWeapons() {
             renderAttachments();
         });
     });
-    
     updateWeaponDetails();
 }
 
@@ -225,95 +271,4 @@ function updateBuildStats() {
     }
 }
 
-// ========== MAP FUNCTIONS ==========
-function renderMapZones() {
-    const container = document.getElementById("zoneButtons");
-    if (!container) return;
-    
-    container.innerHTML = Object.keys(zones).map(key => `
-        <button class="zone-btn" data-zone="${key}">${zones[key].name}</button>
-    `).join("");
-    
-    document.querySelectorAll(".zone-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const zoneKey = btn.dataset.zone;
-            const zone = zones[zoneKey];
-            const highlighter = document.getElementById("mapHighlighter");
-            const details = document.getElementById("zoneDetails");
-            
-            document.querySelectorAll(".zone-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            
-            if (zone && highlighter) {
-                const c = zone.coords;
-                highlighter.innerHTML = `
-                    <div style="position: absolute; left: ${c.x}%; top: ${c.y}%; width: ${c.w}%; height: ${c.h}%; 
-                                background: rgba(255, 255, 255, 0.2); border: 3px solid #fff; 
-                                border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.6); backdrop-filter: blur(2px);">
-                    </div>
-                `;
-                details.innerHTML = `
-                    <strong>📍 ${zone.name}</strong><br>
-                    🚩 Faction: ${zone.faction}<br>
-                    🎁 Loot: ${zone.loot}<br>
-                    ✨ Recommended: Night raids for higher spawn rates
-                `;
-            }
-        });
-    });
-}
-
-// ========== TABS ==========
-function initTabs() {
-    const tabs = document.querySelectorAll(".nav-item");
-    const pages = {
-        welcome: document.getElementById("welcome"),
-        builder: document.getElementById("builder"),
-        map: document.getElementById("map")
-    };
-    
-    tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            const target = tab.dataset.tab;
-            tabs.forEach(t => t.classList.remove("active"));
-            tab.classList.add("active");
-            Object.values(pages).forEach(page => page.classList.remove("active"));
-            if (pages[target]) pages[target].classList.add("active");
-            
-            // Re-renderizar contenido dinámico cuando se cambia de pestaña
-            if (target === "builder") {
-                renderWeapons();
-                renderAttachments();
-            }
-            if (target === "map") {
-                renderMapZones();
-            }
-        });
-    });
-}
-
-// ========== BUILD MODES ==========
-function initModes() {
-    const modes = document.querySelectorAll(".mode-pill");
-    modes.forEach(btn => {
-        btn.addEventListener("click", () => {
-            modes.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            currentMode = btn.dataset.mode;
-            // Resetear custom parts al cambiar de modo
-            customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: null };
-            renderAttachments();
-        });
-    });
-}
-
-// ========== INITIALIZATION ==========
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("GZW Armory Core initialized");
-    renderGear();
-    renderWeapons();
-    renderAttachments();
-    renderMapZones();
-    initTabs();
-    initModes();
-});
+// ==========
