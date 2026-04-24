@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gray Zone Warfare | Tactical Gear Guide & Loadout Builder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="gzw-app">
+    <div class="mil-header">
+        <h1>◈ GRAY ZONE WARFARE ◈</h1>
+        <div class="sub">TACTICAL OPERATOR'S HANDBOOK | GEAR, LOOT, DROP RATES & COMBOS</div>
+        <div style="margin-top: 8px; font-size: 0.8rem;">⛨ LAMANG/FN | M4 | Advanced Combat Guide ⛨</div>
+    </div>
+
+    <div class="grid-2col">
+        <!-- LEFT COLUMN: GEAR LIST + PROBABILITIES + LOCATIONS -->
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <span>⚙️ ESSENTIAL EQUIPMENT</span> 
+                    <span class="badge">Price • Drop % • Spawn Zones</span>
+                </div>
+                <div class="card-content" id="gearListContainer">
+                    <!-- dynamic gear list via js -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span>🎯 BEST LOADOUT COMBINATIONS</span>
+                </div>
+                <div class="card-content">
+                    <div id="bestCombosDisplay" class="combo-box">
+                        <!-- combos loaded dynamically -->
+                    </div>
+                    <p style="margin-top: 12px; font-size: 0.75rem;">⬤ Meta: high mobility + armor breaking ammo. Use <span class="highlight">RPC carrier + M4 SOPMOD + JPC 2.0</span> for FN MSR / TIGER BAY raids.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: STRATEGIES + HOW TO PLAY / EQUIP -->
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <span>🎮 HOW TO PLAY & GEAR UP (GZW)</span>
+                </div>
+                <div class="card-content">
+                    <p><strong>★ GRAY ZONE basics:</strong> tactical extraction shooter. You start at base camp ( factions: Mithras, Crimson, Lamang).<br>
+                    <strong>★ Equipping:</strong> Access the 'GEAR' tab → equip vest, helmet, headset, weapon mods, meds. <br>
+                    <strong>★ Best Starting strategy:</strong> loot POIs (YBL-1, Ban Pa, Tiger Bay Marina) → sell high-tier attachments → buy <span class="highlight">RPC carrier</span> + <span class="highlight">M4 Block II</span>.</p>
+                    <hr style="margin: 12px 0;">
+                    <p><strong>🔫 WEAPON TIER LIST:</strong> M4 SOPMOD (meta), AK-12 (budget), DDM4 (rare), MPX (CQB).<br>
+                    <strong>🛡️ ARMOR:</strong> RPC > JPC 2.0 > 6B23. Helmets: Ops-Core FAST (high ricochet).</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span>🧩 STRATEGIES TO OBTAIN TOP GEAR</span>
+                </div>
+                <div class="card-content">
+                    <ul class="strat-list" id="strategiesList">
+                        <!-- strategies injected -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span>🏆 LOOT RUNS & DROP ZONES</span>
+                </div>
+                <div class="card-content">
+                    <div id="lootTips">
+                        <p>🔹 <strong>YBL-1 Bunker:</strong> weapon crates (M4 SOPMOD 12% / RPC 8%)<br>
+                        🔹 <strong>Tiger Bay - Central:</strong> high-tier military loot, Ops-Core helmet (6%)<br>
+                        🔹 <strong>Ban Pa village:</strong> hidden stashes & attachments (AFG grip 22%)<br>
+                        🔹 <strong>Fort Narith:</strong> boss area, MDR & armor repair kits<br>
+                        🔹 <strong>Midnight Sapphire:</strong> rare suppressors & NVGs (2%)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        ⚡ Data based on GZW community intel | v 1.2 (Lamang edition) — probabilities reflect dynamic loot pools / high-tier crate estimates ⚡
+    </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
