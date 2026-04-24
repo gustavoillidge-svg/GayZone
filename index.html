@@ -11,7 +11,7 @@
         <!-- Premium Glass Navbar -->
         <nav class="glass-nav">
             <div class="nav-logo">
-                <div class="logo-icon">⚡</div>
+                <div class="logo-icon">◈</div>
                 <div class="logo-text">
                     <span class="logo-main">GRAY ZONE</span>
                     <span class="logo-sub">ARMORY CORE</span>
@@ -84,7 +84,7 @@
         <div id="builder" class="page">
             <div class="builder-header">
                 <h2>🔫 WEAPON CUSTOMIZATION STUDIO</h2>
-                <div class="mode-selector">
+                <div class="mode-selector" id="modeSelector">
                     <button class="mode-pill active" data-mode="pro">🏆 PRO BUILDS</button>
                     <button class="mode-pill" data-mode="popular">🔥 POPULAR BUILDS</button>
                     <button class="mode-pill" data-mode="custom">🎨 CUSTOM BUILD</button>
@@ -113,11 +113,13 @@
             </div>
             <div class="map-viewer">
                 <div class="map-container">
-                    <img src="GreyZone.png" alt="Gray Zone Warfare Map" id="tacticalMap" class="tactical-map">
+                    <img src="GreyZone.png" alt="Gray Zone Warfare Map" id="tacticalMap" class="tactical-map" onerror="this.onerror=null; this.src='https://placehold.co/800x500/1c1f26/aaaaaa?text=GreyZone.png+-+Map+Image'">
                     <div id="mapHighlighter" class="map-highlighter"></div>
                 </div>
             </div>
-            <div id="zoneDetails" class="zone-detail-card"></div>
+            <div id="zoneDetails" class="zone-detail-card">
+                <p>🔍 Select a zone above to see loot details</p>
+            </div>
         </div>
     </div>
 
