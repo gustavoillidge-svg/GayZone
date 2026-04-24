@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>GayZone Warfare | Armory & Weapon Builder</title>
+    <title>GayZone Warfare | Tactical Operations Center</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,98 +12,120 @@
     <div class="mil-header">
         <div class="header-top">
             <div class="logo">
-                <span class="skull">⚔️</span>
+                <span class="mg-icon">🔫</span>
                 <h1>GAYZONE WARFARE</h1>
-                <span class="skull">⚔️</span>
+                <span class="mg-icon">💣</span>
             </div>
-            <div class="sub">TACTICAL ARMORY · WEAPON SMITH · CUSTOM BUILDS</div>
-            <div class="version-tag">[ LAMANG OPERATIONS v2.4 ]</div>
+            <div class="sub">TACTICAL OPERATIONS CENTER · ARMORY · INTEL MAP</div>
+            <div class="version-tag">[ LAMANG OPERATIONS v3.0 | ELITE TACTICAL GUIDE ]</div>
         </div>
     </div>
 
-    <!-- MAIN GRID -->
-    <div class="grid-main">
-        <!-- LEFT COLUMN: GEAR & LOOT INFO -->
-        <div class="left-panel">
-            <div class="card">
-                <div class="card-header">
-                    <span>📦 ESSENTIAL EQUIPMENT</span>
-                    <span class="badge">PRICE • DROP % • ZONE</span>
-                </div>
-                <div class="card-content" id="gearListContainer"></div>
-            </div>
+    <!-- PESTAÑAS (TABS) -->
+    <div class="tabs-container">
+        <button class="tab-btn active" data-tab="info">📋 GENERAL INFO</button>
+        <button class="tab-btn" data-tab="builds">🔧 WEAPON BUILDER</button>
+        <button class="tab-btn" data-tab="map">🗺️ TACTICAL MAP</button>
+    </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <span>🎯 BEST LOADOUT COMBOS</span>
+    <!-- ==================== PESTAÑA 1: INFORMACIÓN GENERAL ==================== -->
+    <div id="tab-info" class="tab-content active">
+        <div class="grid-2col">
+            <div>
+                <div class="card">
+                    <div class="card-header">🎮 HOW TO PLAY GAYZONE WARFARE</div>
+                    <div class="card-content">
+                        <p><strong>★ BASICS:</strong> Tactical extraction shooter set in Lamang island. Choose faction: Mithras, Crimson Shield, or Lamang Recovery Initiative.</p>
+                        <p><strong>★ OBJECTIVE:</strong> Complete tasks, loot high-tier gear, eliminate hostiles, extract safely.</p>
+                        <p><strong>★ HEALTH SYSTEM:</strong> Limb-specific damage. Use surgical kits, bandages, splints.</p>
+                        <p><strong>★ PERMANENT DEATH:</strong> Lose gear on death unless secured in stash.</p>
+                        <hr>
+                        <p><strong>💰 ECONOMY TIPS:</strong> Sell attachments, farm YBL-1 weapon crates, buy RPC carrier first.</p>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <div id="bestCombosDisplay" class="combo-box"></div>
+                <div class="card">
+                    <div class="card-header">⚙️ BEST STARTER LOADOUT</div>
+                    <div class="card-content">
+                        <ul class="strat-list">
+                            <li>✓ Primary: AK-12 (buy from vendor ~18k) or loot from Ban Pa</li>
+                            <li>✓ Armor: JPC 2.0 (14.5% drop Tiger Bay Marina)</li>
+                            <li>✓ Helmet: Ops-Core FAST (Midnight Sapphire crates)</li>
+                            <li>✓ Medical: 2x CAT Tourniquet, 1x Surgical Kit, 3x Bandages</li>
+                            <li>✓ Ammo: M855A1 or BP for penetration</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span>🏆 STRATEGIES & LOOT RUNS</span>
+            <div>
+                <div class="card">
+                    <div class="card-header">📊 GEAR PRICE & DROP TABLE</div>
+                    <div class="card-content" id="gearTableInfo"></div>
                 </div>
-                <div class="card-content">
-                    <ul class="strat-list" id="strategiesList"></ul>
-                    <div id="lootTips" class="loot-tips"></div>
+                <div class="card">
+                    <div class="card-header">🧠 TACTICAL STRATEGIES</div>
+                    <div class="card-content" id="strategiesFull"></div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- RIGHT COLUMN: WEAPON BUILDER (META/POPULAR/CUSTOM) -->
-        <div class="right-panel">
-            <div class="card weapon-builder-card">
-                <div class="card-header">
-                    <span>🔧 WEAPON SMITH · BUILD ANY AR</span>
-                    <span class="badge">META | POPULAR | CUSTOM</span>
-                </div>
-                <div class="card-content">
-                    <!-- Build Selector -->
-                    <div class="build-selector">
-                        <button class="build-btn active" data-build="meta">🏅 META BUILD</button>
-                        <button class="build-btn" data-build="popular">🔥 POPULAR BUILD</button>
-                        <button class="build-btn" data-build="custom">🎨 CUSTOM BUILD</button>
-                    </div>
-
-                    <!-- Weapon Preview Area (Simulated Game Imagery) -->
-                    <div class="weapon-preview" id="weaponPreview">
-                        <div class="weapon-silhouette">
-                            <div class="part-icon receiver">🔩 RECEIVER</div>
-                            <div class="part-icon barrel">🔫 BARREL</div>
-                            <div class="part-icon handguard">🛡️ HANDGUARD</div>
-                            <div class="part-icon stock">📌 STOCK</div>
-                            <div class="part-icon grip">✋ GRIP</div>
-                            <div class="part-icon optic">🔭 OPTIC</div>
-                            <div class="part-icon muzzle">💨 MUZZLE</div>
-                            <div class="part-icon magazine">📀 MAGAZINE</div>
+    <!-- ==================== PESTAÑA 2: WEAPON BUILDER ==================== -->
+    <div id="tab-builds" class="tab-content">
+        <div class="builder-layout">
+            <!-- Left: Build Selector + Stats -->
+            <div class="builder-left">
+                <div class="card">
+                    <div class="card-header">🎯 BUILD PRESETS</div>
+                    <div class="card-content">
+                        <div class="build-selector">
+                            <button class="build-btn preset-meta" data-build="meta">🏅 PRO BUILD (META)</button>
+                            <button class="build-btn preset-popular" data-build="popular">🔥 POPULAR BUILD</button>
+                            <button class="build-btn preset-custom" data-build="custom">🎨 CUSTOM BUILD</button>
                         </div>
-                        <div class="weapon-name" id="weaponNameDisplay">M4 SOPMOD CUSTOM</div>
+                        <div class="weapon-stats-card" id="weaponStatsDisplay">
+                            <div class="stat-row">🎯 ACCURACY: <span id="accVal">0</span>%</div>
+                            <div class="stat-row">⚡ RECOIL CTRL: <span id="recVal">0</span>%</div>
+                            <div class="stat-row">🔫 ROF: <span id="rofVal">0</span> RPM</div>
+                            <div class="stat-row">💰 TOTAL PRICE: $<span id="priceVal">0</span></div>
+                        </div>
+                        <button id="saveCustomWeapon" class="btn-save">💾 SAVE CUSTOM BUILD</button>
+                        <div id="buildFeedback" class="feedback"></div>
                     </div>
-
-                    <!-- Parts List (All weapon components) -->
-                    <div class="parts-inventory">
-                        <h4>⚙️ WEAPON PARTS (click to customize)</h4>
-                        <div class="parts-grid" id="partsGrid"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">🏆 PRO BUILDS (Community Top)</div>
+                    <div class="card-content" id="proBuildsList"></div>
+                </div>
+            </div>
+            <!-- Right: ALL WEAPON PARTS (todos los tipos) -->
+            <div class="builder-right">
+                <div class="card">
+                    <div class="card-header">🔩 ALL WEAPON PARTS (click to customize)</div>
+                    <div class="card-content">
+                        <div class="parts-categories" id="fullPartsGrid"></div>
                     </div>
-
-                    <!-- Selected Build Details -->
-                    <div class="build-stats" id="buildStats">
-                        <div class="stat-line">🎯 ACCURACY: <span id="accuracyStat">0</span>%</div>
-                        <div class="stat-line">⚡ RECOIL CONTROL: <span id="recoilStat">0</span>%</div>
-                        <div class="stat-line">🔫 RATE OF FIRE: <span id="rofStat">0</span> RPM</div>
-                        <div class="stat-line">💰 TOTAL PRICE: $<span id="priceStat">0</span></div>
-                    </div>
-
-                    <button id="saveCustomBtn" class="btn-primary">💾 SAVE CUSTOM BUILD</button>
-                    <div id="customFeedback" class="feedback-msg"></div>
                 </div>
             </div>
         </div>
     </div>
-    <footer>⚡ GAYZONE WARFARE - ARMORY DATABASE | All weapon parts based on in-game attachments | Build freely ⚡</footer>
+
+    <!-- ==================== PESTAÑA 3: MAPA INTERACTIVO ==================== -->
+    <div id="tab-map" class="tab-content">
+        <div class="map-container">
+            <div class="map-controls">
+                <button class="map-filter active" data-filter="all">🗺️ ALL ZONES</button>
+                <button class="map-filter" data-filter="faction">⚔️ BY FACTION</button>
+                <button class="map-filter" data-filter="loot">💎 BY LOOT RARITY</button>
+                <button class="map-filter" data-filter="boss">👹 BOSS LOCATIONS</button>
+            </div>
+            <div class="map-canvas" id="tacticalMap">
+                <!-- Mapa generado por JS -->
+            </div>
+            <div class="map-legend" id="mapLegend"></div>
+        </div>
+    </div>
+
+    <footer>⚡ GAYZONE WARFARE - Complete Tactical Guide | Data based on community intel | v3.0 Elite Edition ⚡</footer>
 </div>
 <script src="script.js"></script>
 </body>
