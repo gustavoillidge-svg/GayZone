@@ -76,6 +76,7 @@ let customParts = { optic: null, muzzle: null, grip: null, stock: null, mag: nul
 function renderGear() {
     const container = document.getElementById("gearGrid");
     if (!container) return;
+    
     container.innerHTML = gear.map(g => `
         <div class="gear-item">
             <span class="gear-name">${g.name}</span>
@@ -90,6 +91,7 @@ function renderGear() {
 function renderWeapons() {
     const container = document.getElementById("weaponSelector");
     if (!container) return;
+    
     container.innerHTML = weapons.map(w => `
         <button class="weapon-btn ${currentWeapon.id === w.id ? "active" : ""}" data-id="${w.id}">
             ${w.name}
@@ -104,6 +106,7 @@ function renderWeapons() {
             renderAttachments();
         });
     });
+    
     updateWeaponDetails();
 }
 
@@ -161,6 +164,7 @@ function renderAttachments() {
                 updateBuildStats();
             });
         });
+        updateBuildStats();
     } else {
         const parts = getPartsByMode();
         let html = `<div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">`;
@@ -221,10 +225,11 @@ function updateBuildStats() {
     }
 }
 
-// ========== MAP ==========
+// ========== MAP FUNCTIONS ==========
 function renderMapZones() {
     const container = document.getElementById("zoneButtons");
     if (!container) return;
+    
     container.innerHTML = Object.keys(zones).map(key => `
         <button class="zone-btn" data-zone="${key}">${zones[key].name}</button>
     `).join("");
@@ -242,9 +247,4 @@ function renderMapZones() {
             if (zone && highlighter) {
                 const c = zone.coords;
                 highlighter.innerHTML = `
-                    <div style="position: absolute; left: ${c.x}%; top: ${c.y}%; width: ${c.w}%; height: ${c.h}%; 
-                                background: rgba(255, 255, 255, 0.2); border: 3px solid #fff; 
-                                border-radius: 12px; box-shadow: 0 0 30px rgba(255,255,255,0.6); backdrop-filter: blur(2px);">
-                    </div>
-                `;
-                details.innerHTML
+                    <div style="position: absolute; left: ${c.x}%; top:
