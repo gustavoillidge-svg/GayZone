@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>GZW | Armory Core - Tactical Intelligence</title>
+    <title>GZW | Armory Core</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Leaflet CSS para mapa interactivo con zoom -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- Premium Glass Navbar -->
         <nav class="glass-nav">
             <div class="nav-logo">
                 <div class="logo-icon">◈</div>
@@ -21,69 +17,31 @@
                 </div>
             </div>
             <div class="nav-menu">
-                <button class="nav-item active" data-tab="welcome">
-                    <span class="nav-icon">🏠</span>
-                    <span>OPERATIONS</span>
-                </button>
-                <button class="nav-item" data-tab="builder">
-                    <span class="nav-icon">🔧</span>
-                    <span>LOADOUT STUDIO</span>
-                </button>
-                <button class="nav-item" data-tab="map">
-                    <span class="nav-icon">🗺️</span>
-                    <span>TACTICAL MAP</span>
-                </button>
+                <button class="nav-item active" data-tab="welcome">🏠 OPERATIONS</button>
+                <button class="nav-item" data-tab="builder">🔧 LOADOUT STUDIO</button>
+                <button class="nav-item" data-tab="map">🗺️ TACTICAL MAP</button>
             </div>
         </nav>
 
-        <!-- WELCOME SECTION -->
+        <!-- WELCOME -->
         <div id="welcome" class="page active">
             <div class="hero-banner">
                 <h1 class="hero-title">OPERATOR'S READY ROOM</h1>
                 <p class="hero-sub">Gray Zone Warfare • Tactical Extraction • Faction Warfare</p>
             </div>
-
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🎯</div>
-                    <div class="stat-info">
-                        <h3>Core Mechanics</h3>
-                        <p>Persistent health, realistic ballistics, faction-based PvPvE extraction</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">💰</div>
-                    <div class="stat-info">
-                        <h3>Economy System</h3>
-                        <p>Sell loot, complete vendor missions, build your arsenal</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📍</div>
-                    <div class="stat-info">
-                        <h3>Hot Loot Zones</h3>
-                        <p>YBL-1 • Ban Pa • Tiger Bay • Fort Narith • Midnight Sapphire</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🛡️</div>
-                    <div class="stat-info">
-                        <h3>Armor Meta</h3>
-                        <p>RPC > JPC 2.0 > 6B23 | Ops-Core FAST for head protection</p>
-                    </div>
-                </div>
+                <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-info"><h3>Core Mechanics</h3><p>Persistent health, realistic ballistics, faction-based PvPvE extraction</p></div></div>
+                <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-info"><h3>Economy System</h3><p>Sell loot, complete vendor missions, build your arsenal</p></div></div>
+                <div class="stat-card"><div class="stat-icon">📍</div><div class="stat-info"><h3>Hot Loot Zones</h3><p>YBL-1 • Ban Pa • Tiger Bay • Fort Narith • Midnight Sapphire</p></div></div>
+                <div class="stat-card"><div class="stat-icon">🛡️</div><div class="stat-info"><h3>Armor Meta</h3><p>RPC > JPC 2.0 > 6B23 | Ops-Core FAST for head protection</p></div></div>
             </div>
-
             <div class="glass-panel full-width">
-                <div class="panel-header">
-                    <h2>📦 COMPLETE GEAR DATABASE</h2>
-                    <span class="badge">Live Drop Rates</span>
-                </div>
+                <div class="panel-header"><h2>📦 COMPLETE GEAR DATABASE</h2><span class="badge">Live Drop Rates</span></div>
                 <div id="gearGrid" class="gear-container"></div>
             </div>
         </div>
 
-        <!-- BUILDER SECTION -->
+        <!-- BUILDER -->
         <div id="builder" class="page">
             <div class="builder-header">
                 <h2>🔫 WEAPON CUSTOMIZATION STUDIO</h2>
@@ -93,7 +51,6 @@
                     <button class="mode-pill" data-mode="custom">🎨 CUSTOM BUILD</button>
                 </div>
             </div>
-
             <div class="builder-grid">
                 <div class="builder-card">
                     <h3>SELECT PRIMARY WEAPON</h3>
@@ -108,56 +65,43 @@
             </div>
         </div>
 
-        <!-- MAP SECTION MEJORADO -->
+        <!-- MAP -->
         <div id="map" class="page">
             <div class="map-header">
                 <h2>🗺️ LAMANG OPERATIONAL THEATER</h2>
                 <div class="map-controls">
-                    <button id="zoomInBtn" class="map-control-btn">🔍 Zoom In</button>
-                    <button id="zoomOutBtn" class="map-control-btn">🔍 Zoom Out</button>
-                    <button id="resetViewBtn" class="map-control-btn">⟳ Reset View</button>
+                    <button id="zoomInBtn" class="map-control-btn">🔍 +</button>
+                    <button id="zoomOutBtn" class="map-control-btn">🔍 -</button>
+                    <button id="resetViewBtn" class="map-control-btn">⟳ Reset</button>
                 </div>
             </div>
-            
             <div class="map-loot-layout">
-                <!-- Panel izquierdo: Mapa interactivo -->
                 <div class="map-interactive-container">
                     <div class="map-wrapper" id="mapWrapper">
                         <div class="map-zoom-container" id="zoomContainer">
                             <img src="GreyZone.png" alt="Gray Zone Warfare Map" id="tacticalMap" class="tactical-map" 
-                                 onerror="this.onerror=null; this.src='https://placehold.co/1200x800/1c1f26/aaaaaa?text=GZW+MAP';">
+                                 onerror="this.onerror=null; this.src='https://placehold.co/1000x700/1c1f26/aaaaaa?text=GZW+MAP'">
                             <div id="mapHighlighter" class="map-highlighter"></div>
                         </div>
                     </div>
                     <div class="map-zoom-controls">
-                        <input type="range" id="zoomSlider" min="1" max="3" step="0.1" value="1">
+                        <input type="range" id="zoomSlider" min="1" max="2.5" step="0.05" value="1">
                         <span id="zoomValue">100%</span>
                     </div>
                 </div>
-
-                <!-- Panel derecho: Lista de loot completa -->
                 <div class="loot-sidebar">
                     <div class="loot-header">
                         <h3>📦 COMPLETE LOOT DATABASE</h3>
                         <input type="text" id="lootSearch" placeholder="🔍 Search loot..." class="loot-search">
                     </div>
-                    <div class="loot-categories" id="lootCategories">
-                        <!-- Categorías dinámicas -->
-                    </div>
+                    <div class="loot-categories" id="lootCategories"></div>
                     <div id="lootList" class="loot-list"></div>
-                    <div class="loot-stats">
-                        <span id="lootCount">0 items</span>
-                        <span id="selectedZoneName">No zone selected</span>
-                    </div>
+                    <div class="loot-stats"><span id="lootCount">0 items</span><span id="selectedZoneName">Select loot</span></div>
                 </div>
             </div>
-
-            <div id="zoneDetails" class="zone-detail-card">
-                <p>🔍 Click on any loot item or zone to see details and map highlight</p>
-            </div>
+            <div id="zoneDetails" class="zone-detail-card"><p>🔍 Click on any loot item to see location and map highlight</p></div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
