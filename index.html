@@ -3,130 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>GayZone Warfare | Tactical Operations Center</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>GZW | Operator Nexus — Tactical Welcome & Loadout Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 30% 10%, #0a0f1a, #020408);
+            font-family: 'Segoe UI', 'Poppins', 'Orbitron', monospace;
+            color: #eef2f0;
+            line-height: 1.45;
+            min-height: 100vh;
+        }
+
+        /* TOP BAR MILITARY */
+        .mil-nav {
+            background: rgba(8, 12, 18, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid #8b9a46;
+            padding: 0.9rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        }
+        .logo-area h2 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #e6efc5, #9ab55e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo-area span {
+            font-size: 0.7rem;
+            color: #b3c78a;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent;
+            border: 1px solid #5a6e3a;
+            padding: 0.5rem 1.4rem;
+            border-radius: 40px;
+            font-weight: bold;
+            font-family: monospace;
+            color: #cfdeb4;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .tab-btn.active {
+            background: #8b9a46;
+            color: #0a0f1a;
+            border-color: #e6efc5;
+            box-shadow: 0 0 8px #b3cf5e;
+        }
+        .tab-btn:hover:not(.active) {
+            background: #2d3620;
+            border-color: #bdd47a;
+        }
+        /* main content */
+        .main-stage {
+            max-width: 1500px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .tab-pane {
+            display: none;
+            animation: fade 0.25s ease;
+        }
+        .tab-pane.active-pane {
+            display: block;
+        }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+        /* cards general */
+        .card-mil {
+            background: rgba(12, 18, 26, 0.85);
+            backdrop-filter: blur(3px);
+            border-radius: 32px;
+            border-left: 4px solid #8b9a46;
+            margin-bottom: 2rem;
+            padding: 1.6rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .section-title {
+            font-size: 1.8rem;
+            border-bottom: 1px solid #6b7c42;
+            display: inline-block;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        /* builder layout */
+        .builder-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .weapon-selector {
+            flex: 1.2;
+            background: #0a1018;
+            border-radius: 28px;
+            padding: 1.2rem;
+        }
+        .parts-panel {
+            flex: 2.5;
+            background: #0a1018;
+            border-radius: 28px;
+            padding: 1.2rem;
+        }
+        .weapon-list-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+        .weapon-btn {
+            background: #1a212c;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            color: #cfe2b0;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .weapon-btn.active-weapon {
+            background: #8b9a46;
+            color: #03070c;
+        }
+        .part-group {
+            background: #0f151f;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .part-select {
+            width: 100%;
+            background: #1c2532;
+            border: 1px solid #5c6e3c;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 32px;
+            margin-top: 6px;
+            font-family: monospace;
+        }
+        .stat-row {
+            font-size: 0.75rem;
+            display: flex;
+            gap: 1rem;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-stat {
+            background: #232d1e;
+            border-radius: 20px;
+            padding: 2px 8px;
+        }
+        /* mapa interactivo */
+        .map-container {
+            background: #07111e;
+            border-radius: 28px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .static-map-svg {
+            background: #1a2a2f;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            display: block;
+        }
+        .zone-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1.2rem 0;
+            justify-content: center;
+        }
+        .zone-btn {
+            background: #1e2a1a;
+            border: 1px solid #788f4a;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .zone-btn.active-zone {
+            background: #8b9a46;
+            color: black;
+        }
+        .loot-info-panel {
+            background: #0d121c;
+            border-radius: 24px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 2rem;
+            color: #6c7f55;
+        }
+        button {
+            cursor: pointer;
+        }
+        hr {
+            border-color: #2e3a24;
+        }
+        .build-switch {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .build-type {
+            background: #0e141e;
+            border: 1px solid #6c8242;
+            border-radius: 40px;
+            padding: 6px 20px;
+            font-weight: bold;
+        }
+        .build-type.active-build {
+            background: #6f8c3c;
+            color: black;
+        }
+        @media (max-width: 800px) {
+            .nav-tabs { margin-top: 10px; }
+            .mil-nav { flex-direction: column; align-items: start; gap: 10px; }
+        }
+    </style>
 </head>
 <body>
-<div class="gzw-app">
-    <!-- HEADER TACTICAL -->
-    <div class="mil-header">
-        <div class="header-top">
-            <div class="logo">
-                <span class="mg-icon">🔫</span>
-                <h1>GAYZONE WARFARE</h1>
-                <span class="mg-icon">💣</span>
-            </div>
-            <div class="sub">TACTICAL OPERATIONS CENTER · ARMORY · INTEL MAP</div>
-            <div class="version-tag">[ LAMANG OPERATIONS v3.0 | ELITE TACTICAL GUIDE ]</div>
-        </div>
+<div class="mil-nav">
+    <div class="logo-area">
+        <h2>◈ GRAY ZONE NEXUS ◈</h2>
+        <span>tactical intelligence & armory</span>
     </div>
-
-    <!-- PESTAÑAS (TABS) -->
-    <div class="tabs-container">
-        <button class="tab-btn active" data-tab="info">📋 GENERAL INFO</button>
-        <button class="tab-btn" data-tab="builds">🔧 WEAPON BUILDER</button>
-        <button class="tab-btn" data-tab="map">🗺️ TACTICAL MAP</button>
+    <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="welcome">🏠 WELCOME / NOOPS HUB</button>
+        <button class="tab-btn" data-tab="builder">⚙️ ADVANCED BUILDER</button>
+        <button class="tab-btn" data-tab="map">🗺️ INTERACTIVE MAP (LOOT ZONES)</button>
     </div>
-
-    <!-- ==================== PESTAÑA 1: INFORMACIÓN GENERAL ==================== -->
-    <div id="tab-info" class="tab-content active">
-        <div class="grid-2col">
-            <div>
-                <div class="card">
-                    <div class="card-header">🎮 HOW TO PLAY GAYZONE WARFARE</div>
-                    <div class="card-content">
-                        <p><strong>★ BASICS:</strong> Tactical extraction shooter set in Lamang island. Choose faction: Mithras, Crimson Shield, or Lamang Recovery Initiative.</p>
-                        <p><strong>★ OBJECTIVE:</strong> Complete tasks, loot high-tier gear, eliminate hostiles, extract safely.</p>
-                        <p><strong>★ HEALTH SYSTEM:</strong> Limb-specific damage. Use surgical kits, bandages, splints.</p>
-                        <p><strong>★ PERMANENT DEATH:</strong> Lose gear on death unless secured in stash.</p>
-                        <hr>
-                        <p><strong>💰 ECONOMY TIPS:</strong> Sell attachments, farm YBL-1 weapon crates, buy RPC carrier first.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">⚙️ BEST STARTER LOADOUT</div>
-                    <div class="card-content">
-                        <ul class="strat-list">
-                            <li>✓ Primary: AK-12 (buy from vendor ~18k) or loot from Ban Pa</li>
-                            <li>✓ Armor: JPC 2.0 (14.5% drop Tiger Bay Marina)</li>
-                            <li>✓ Helmet: Ops-Core FAST (Midnight Sapphire crates)</li>
-                            <li>✓ Medical: 2x CAT Tourniquet, 1x Surgical Kit, 3x Bandages</li>
-                            <li>✓ Ammo: M855A1 or BP for penetration</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="card">
-                    <div class="card-header">📊 GEAR PRICE & DROP TABLE</div>
-                    <div class="card-content" id="gearTableInfo"></div>
-                </div>
-                <div class="card">
-                    <div class="card-header">🧠 TACTICAL STRATEGIES</div>
-                    <div class="card-content" id="strategiesFull"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== PESTAÑA 2: WEAPON BUILDER ==================== -->
-    <div id="tab-builds" class="tab-content">
-        <div class="builder-layout">
-            <!-- Left: Build Selector + Stats -->
-            <div class="builder-left">
-                <div class="card">
-                    <div class="card-header">🎯 BUILD PRESETS</div>
-                    <div class="card-content">
-                        <div class="build-selector">
-                            <button class="build-btn preset-meta" data-build="meta">🏅 PRO BUILD (META)</button>
-                            <button class="build-btn preset-popular" data-build="popular">🔥 POPULAR BUILD</button>
-                            <button class="build-btn preset-custom" data-build="custom">🎨 CUSTOM BUILD</button>
-                        </div>
-                        <div class="weapon-stats-card" id="weaponStatsDisplay">
-                            <div class="stat-row">🎯 ACCURACY: <span id="accVal">0</span>%</div>
-                            <div class="stat-row">⚡ RECOIL CTRL: <span id="recVal">0</span>%</div>
-                            <div class="stat-row">🔫 ROF: <span id="rofVal">0</span> RPM</div>
-                            <div class="stat-row">💰 TOTAL PRICE: $<span id="priceVal">0</span></div>
-                        </div>
-                        <button id="saveCustomWeapon" class="btn-save">💾 SAVE CUSTOM BUILD</button>
-                        <div id="buildFeedback" class="feedback"></div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">🏆 PRO BUILDS (Community Top)</div>
-                    <div class="card-content" id="proBuildsList"></div>
-                </div>
-            </div>
-            <!-- Right: ALL WEAPON PARTS (todos los tipos) -->
-            <div class="builder-right">
-                <div class="card">
-                    <div class="card-header">🔩 ALL WEAPON PARTS (click to customize)</div>
-                    <div class="card-content">
-                        <div class="parts-categories" id="fullPartsGrid"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== PESTAÑA 3: MAPA INTERACTIVO ==================== -->
-    <div id="tab-map" class="tab-content">
-        <div class="map-container">
-            <div class="map-controls">
-                <button class="map-filter active" data-filter="all">🗺️ ALL ZONES</button>
-                <button class="map-filter" data-filter="faction">⚔️ BY FACTION</button>
-                <button class="map-filter" data-filter="loot">💎 BY LOOT RARITY</button>
-                <button class="map-filter" data-filter="boss">👹 BOSS LOCATIONS</button>
-            </div>
-            <div class="map-canvas" id="tacticalMap">
-                <!-- Mapa generado por JS -->
-            </div>
-            <div class="map-legend" id="mapLegend"></div>
-        </div>
-    </div>
-
-    <footer>⚡ GAYZONE WARFARE - Complete Tactical Guide | Data based on community intel | v3.0 Elite Edition ⚡</footer>
 </div>
-<script src="script.js"></script>
+
+<div class="main-stage">
+    <!-- PANEL 1: Noobs guide (completo) -->
+    <div id="welcomePane" class="tab-pane active-pane">
+        <div class="card-mil">
+            <div class="section-title">▸ OPERATOR INITIATION: GRAY ZONE WARFARE</div>
+            <p style="margin-bottom: 1rem;">Bienvenido, recluta. Gray Zone Warfare es un extraction shooter táctico con enfoque realista. Elige facción (Mithras, Crimson, Lamang) y sobrevive en la jungla de Lamang. Aquí todo lo que necesitas saber:</p>
+            <div class="grid-2">
+                <div style="background:#0a0f16; border-radius: 24px; padding: 1rem;">
+                    <h3>🎮 CORE MECÁNICAS</h3>
+                    <ul style="margin-left: 1.2rem; margin-top: 8px;">
+                        <li>• <strong>Extracción:</strong> Lleva loot a la zona de extracción.</li>
+                        <li>• <strong>Equipo:</strong> Chaleco, casco, mochila, armas, modificaciones.</li>
+                        <li>• <strong>Daño persistente:</strong> Heridas necesitan vendajes/cirugía.</li>
+                        <li>• <strong>IA avanzada:</strong> Enemigos tácticos y bosses con drops únicos.</li>
+                    </ul>
+                </div>
+                <div style="background:#0a0f16; border-radius: 24px; padding: 1rem;">
+                    <h3>💰 ECONOMÍA & PROGRESIÓN</h3>
+                    <ul style="margin-left: 1.2rem;">
+                        <li>• Vende attachments y armas a vendedores.</li>
+                        <li>• Completa misiones para desbloquear comerciantes.</li>
+                        <li>• Mejores armas: M4 SOPMOD, DDM4, AK-12.</li>
+                        <li>• Protección: RPC > JPC 2.0 > 6B23.</li>
+                    </ul>
+                </div>
+                <div style="background:#0a0f16; border-radius: 24px; padding: 1rem;">
+                    <h3>📍 ZONAS Y DROPS (noob friendly)</h3>
+                    <p><strong>YBL-1 Bunker:</strong> M4 SOPMOD (8.3%), RPC (7.2%)<br>
+                    <strong>Ban Pa:</strong> JPC 2.0 (14.5%), AFG grip (22%)<br>
+                    <strong>Tiger Bay Marina:</strong> cascos Ops-Core (6%)<br>
+                    <strong>Midnight Sapphire:</strong> supresores raros, NVGs (2-4%).</p>
+                </div>
+                <div style="background:#0a0f16; border-radius: 24px; padding: 1rem;">
+                    <h3>🛠️ LOADOUT BÁSICO INICIAL</h3>
+                    <p>Rifle: AK-12 (drop 22%, barato).<br>
+                    Chaleco: JPC 2.0 (balance).<br>
+                    Casco:Ops-Core FAST si encuentras.<br>
+                    Medicina: Vendaje + torniquete + sutura.<br>
+                    <span class="badge-stat">💰 Presupuesto ~35k$</span></p>
+                </div>
+            </div>
+            <hr style="margin: 1.5rem 0;">
+            <div><strong>📘 ESTRATEGIAS FUNDAMENTALES:</strong> Farmea YBL-1 en ráfagas, extrae rápido. Usa auriculares tácticos para escuchar pasos. Siempre lleva munición M855A1 para penetrar armaduras. Únete a discord oficial para escuadras.</div>
+        </div>
+        <div class="card-mil">
+            <div class="section-title">📦 GEAR COMPLETO + DROP% (TODOS LOS ITEMS)</div>
+            <div id="fullGearTable" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- PANEL 2: BUILDER (armas + partes, pro builds/populares/custom) -->
+    <div id="builderPane" class="tab-pane">
+        <div class="card-mil">
+            <div class="section-title">🔧 OPERATOR ARMORY — BUILD WEAPON</div>
+            <div class="build-switch" id="buildModeSelector">
+                <button class="build-type active-build" data-mode="pro">🏆 PRO BUILDS (max stats)</button>
+                <button class="build-type" data-mode="popular">🔥 POPULARES (comunidad)</button>
+                <button class="build-type" data-mode="custom">🎨 CUSTOM (elige cada parte)</button>
+            </div>
+            <div class="builder-layout">
+                <div class="weapon-selector">
+                    <h3>⚡ SELECCIONA ARMA</h3>
+                    <div id="weaponButtonsList" class="weapon-list-btns"></div>
+                    <div id="weaponStatsPreview" style="margin-top: 1rem; background:#0c121c; border-radius: 20px; padding: 12px;">
+                        <span>📊 Estadísticas base + precio promedio</span>
+                    </div>
+                </div>
+                <div class="parts-panel">
+                    <h3>🔩 PIEZAS MODIFICABLES</h3>
+                    <div id="dynamicPartsContainer"></div>
+                    <div id="buildResultStats" style="margin-top: 1rem; background:#10161e; border-radius: 20px; padding: 10px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANEL 3: Mapa interactivo (zonas + loot resaltado) -->
+    <div id="mapPane" class="tab-pane">
+        <div class="card-mil">
+            <div class="section-title">🗺️ MAPA TÁCTICO DE LAMANG (FAcciones / Loot)</div>
+            <div class="map-container">
+                <div class="zone-buttons" id="zoneListContainer"></div>
+                <div class="static-map-svg" id="interactiveMapZone">
+                    <!-- representación visual de mapa estático con anotaciones -->
+                    <svg viewBox="0 0 600 400" style="width:100%; background:#1f2b2c; border-radius: 28px;">
+                        <rect width="600" height="400" fill="#15232b" rx="20" />
+                        <text x="30" y="40" fill="#cfdfb0" font-size="12">YBL-1 Bunker</text>
+                        <rect x="60" y="50" width="80" height="50" fill="#3e5830" rx="8" id="zone-ybl" />
+                        <text x="250" y="100" fill="#cfdfb0" font-size="12">Tiger Bay Marina</text>
+                        <rect x="280" y="105" width="90" height="45" fill="#3e5830" rx="8" id="zone-tiger" />
+                        <text x="460" y="190" fill="#cfdfb0" font-size="12">Ban Pa</text>
+                        <rect x="470" y="200" width="80" height="45" fill="#3e5830" rx="8" id="zone-banpa" />
+                        <text x="40" y="270" fill="#cfdfb0" font-size="12">Fort Narith</text>
+                        <rect x="40" y="280" width="100" height="50" fill="#3e5830" rx="8" id="zone-fort" />
+                        <text x="320" y="350" fill="#cfdfb0" font-size="12">Midnight Sapphire</text>
+                        <rect x="340" y="310" width="110" height="45" fill="#3e5830" rx="8" id="zone-midnight" />
+                        <text x="520" y="40" fill="#bace8a" font-size="10">◉ Facciones: Mithras/Crimson</text>
+                    </svg>
+                </div>
+                <div id="zoneLootDetail" class="loot-info-panel">
+                    <strong>🔍 SELECCIONA UNA ZONA ↑</strong> — Verás loot disponible, drop chances y facción dominante.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>⚡ GZW COMMUNITY INTEL | v2.0 — TODAS LAS ARMAS, PARTES Y DROP% REALISTAS ⚡</footer>
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 1. BASE DE DATOS COMPLETA: ARMAS + PARTES (cañones, miras, culatas, empuñaduras, cargadores)
+    const weaponsDatabase = [
+        { id: "m4_sopmod", name: "M4 SOPMOD Block II", basePrice: 39800, baseDrop: 8.3, dmg: 42, recoil: 68, ergo: 72, caliber: "5.56x45" },
+        { id: "ak12", name: "AK-12", basePrice: 17900, baseDrop: 22.0, dmg: 48, recoil: 74, ergo: 61, caliber: "7.62x39" },
+        { id: "ddm4", name: "DDM4 (Rare)", basePrice: 51200, baseDrop: 3.5, dmg: 46, recoil: 65, ergo: 78, caliber: "5.56x45" },
+        { id: "mpx", name: "MPX SMG", basePrice: 26400, baseDrop: 11.2, dmg: 34, recoil: 45, ergo: 85, caliber: "9x19" },
+        { id: "scar_h", name: "SCAR-H", basePrice: 45200, baseDrop: 5.1, dmg: 58, recoil: 82, ergo: 58, caliber: "7.62x51" }
+    ];
+    // attachments por categoría (aplicables en general a rifles)
+    const attachmentsDB = {
+        optic: [
+            { name: "EOTech EXPS3", price: 8700, drop: 18.2, statBonus: { ergo: +3, recoil: -2 }, bestFor: "pro" },
+            { name: "Vortex Razor HD", price: 12400, drop: 9.5, statBonus: { ergo: +2, recoil: -4 }, bestFor: "pro" },
+            { name: "Kobra red dot", price: 3100, drop: 25, statBonus: { ergo: +1, recoil: -1 }, bestFor: "popular" }
+        ],
+        muzzle: [
+            { name: "Raptor 556 SD Suppressor", price: 14300, drop: 4.2, statBonus: { ergo: -2, recoil: -12, sound: "silent" }, bestFor: "pro" },
+            { name: "WarComp Brake", price: 4200, drop: 15.5, statBonus: { recoil: -6 }, bestFor: "popular" },
+            { name: "Standard Flash Hider", price: 1200, drop: 35, statBonus: { recoil: -2 }, bestFor: "custom" }
+        ],
+        grip: [
+            { name: "AFG Angled Grip", price: 4200, drop: 22.0, statBonus: { recoil: -5, ergo: +4 }, bestFor: "pro" },
+            { name: "RVG Vertical Grip", price: 2800, drop: 28, statBonus: { recoil: -4, ergo: +2 }, bestFor: "popular" },
+            { name: "Stubby BCM", price: 1950, drop: 32, statBonus: { recoil: -3 }, bestFor: "custom" }
+        ],
+        stock: [
+            { name: "Magpul CTR", price: 5600, drop: 12, statBonus: { ergo: +6, recoil: -3 }, bestFor: "pro" },
+            { name: "Standard Stock", price: 0, drop: 85, statBonus: { }, bestFor: "popular" }
+        ]
+    };
+    // helper: obtener mejor parte para pro (max stats)
+    function getBestPart(category) {
+        const parts = attachmentsDB[category];
+        if (!parts) return null;
+        if (category === "optic") return parts.find(p => p.name === "Vortex Razor HD") || parts[0];
+        if (category === "muzzle") return parts.find(p => p.name.includes("Suppressor")) || parts[0];
+        if (category === "grip") return parts.find(p => p.name === "AFG Angled Grip") || parts[0];
+        if (category === "stock") return parts.find(p => p.name === "Magpul CTR") || parts[0];
+        return parts[0];
+    }
+    function getPopularPart(category) {
+        const parts = attachmentsDB[category];
+        if (category === "optic") return parts.find(p => p.name === "EOTech EXPS3") || parts[0];
+        if (category === "muzzle") return parts.find(p => p.name.includes("WarComp")) || parts[0];
+        if (category === "grip") return parts.find(p => p.name.includes("RVG")) || parts[1];
+        return parts[0];
+    }
+
+    let currentBuildMode = "pro";   // pro, popular, custom
+    let currentWeapon = weaponsDatabase[0];
+    let customSelectedParts = { optic: null, muzzle: null, grip: null, stock: null };
+
+    // render armas en builder
+    function renderWeaponList() {
+        const container = document.getElementById("weaponButtonsList");
+        if(!container) return;
+        container.innerHTML = weaponsDatabase.map(w => `<button class="weapon-btn ${currentWeapon.id === w.id ? 'active-weapon' : ''}" data-id="${w.id}">${w.name}</button>`).join('');
+        document.querySelectorAll('.weapon-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const wid = btn.getAttribute('data-id');
+                currentWeapon = weaponsDatabase.find(w => w.id === wid) || weaponsDatabase[0];
+                renderWeaponList(); // refresh active
+                renderPartsBuilder();
+                updateStatsPreview();
+            });
+        });
+        updateStatsPreview();
+    }
+    function updateStatsPreview() {
+        const preview = document.getElementById("weaponStatsPreview");
+        if(preview) preview.innerHTML = `<span>📌 ${currentWeapon.name} | Daño:${currentWeapon.dmg} | Retroceso:${currentWeapon.recoil} | Ergo:${currentWeapon.ergo} | Drop:${currentWeapon.baseDrop}% | Precio base:$${currentWeapon.basePrice}</span>`;
+    }
+    function renderPartsBuilder() {
+        const container = document.getElementById("dynamicPartsContainer");
+        if(!container) return;
+        if(currentBuildMode === "custom") {
+            // desplegar selects para cada categoría
+            let html = '';
+            for(let [cat, parts] of Object.entries(attachmentsDB)) {
+                let selectedVal = customSelectedParts[cat]?.name || "";
+                html += `<div class="part-group"><label><strong>${cat.toUpperCase()}</strong></label><select class="part-select" data-cat="${cat}">`;
+                html += `<option value="">-- Ninguna / Default --</option>`;
+                parts.forEach(p => {
+                    html += `<option value="${p.name}" ${selectedVal === p.name ? 'selected' : ''}>${p.name} (+${p.statBonus.recoil?`rec ${p.statBonus.recoil}`:''} ergo ${p.statBonus.ergo||0}) - $${p.price} (${p.drop}%)</option>`;
+                });
+                html += `</select></div>`;
+            }
+            container.innerHTML = html;
+            document.querySelectorAll('.part-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const cat = select.getAttribute('data-cat');
+                    const partName = select.value;
+                    if(partName) customSelectedParts[cat] = attachmentsDB[cat].find(p => p.name === partName);
+                    else customSelectedParts[cat] = null;
+                    renderBuildStats();
+                });
+            });
+        } else {
+            // modo pro o popular: mostrar las partes predefinidas
+            let partsList = [];
+            if(currentBuildMode === "pro") {
+                partsList = ["optic", "muzzle", "grip", "stock"].map(cat => ({cat, part: getBestPart(cat)}));
+            } else {
+                partsList = ["optic", "muzzle", "grip", "stock"].map(cat => ({cat, part: getPopularPart(cat)}));
+            }
+            let html = `<div style="display:flex; gap:12px; flex-wrap:wrap;">`;
+            partsList.forEach(({cat, part}) => {
+                if(part) html += `<div class="part-group" style="flex:1; min-width:140px;"><strong>${cat}</strong><div style="margin-top:6px;">${part.name}</div><div class="stat-row">💰 $${part.price} 🎲 ${part.drop}%</div></div>`;
+                else html += `<div>${cat}: estándar</div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+            renderBuildStats(partsList);
+        }
+        if(currentBuildMode !== "custom") renderBuildStats();
+    }
+    function renderBuildStats(forcedParts = null) {
+        let totalRecoil = currentWeapon.recoil;
+        let totalErgo = currentWeapon.ergo;
+        let totalPrice = currentWeapon.basePrice;
+        let partsUsed = [];
+        if(currentBuildMode === "pro") {
+            const categories = ["optic","muzzle","grip","stock"];
+            categories.forEach(cat => {
+                const part = getBestPart(cat);
+                if(part) {
+                    totalRecoil += (part.statBonus.recoil || 0);
+                    totalErgo += (part.statBonus.ergo || 0);
+                    totalPrice += part.price;
+                    partsUsed.push(part.name);
+                }
+            });
+        } else if(currentBuildMode === "popular") {
+            const categories = ["optic","muzzle","grip","stock"];
+            categories.forEach(cat => {
+                const part = getPopularPart(cat);
+                if(part) {
+                    totalRecoil += (part.statBonus.recoil || 0);
+                    totalErgo += (part.statBonus.ergo || 0);
+                    totalPrice += part.price;
+                    partsUsed.push(part.name);
+                }
+            });
+        } else if(currentBuildMode === "custom") {
+            Object.values(customSelectedParts).forEach(part => {
+                if(part) {
+                    totalRecoil += (part.statBonus.recoil || 0);
+                    totalErgo += (part.statBonus.ergo || 0);
+                    totalPrice += part.price;
+                    partsUsed.push(part.name);
+                }
+            });
+        }
+        const resultDiv = document.getElementById("buildResultStats");
+        if(resultDiv) resultDiv.innerHTML = `<strong>⚙️ BUILD STATS</strong><br>🔻 Retroceso total: ${totalRecoil} | 🧘 Ergo: ${totalErgo} | 💰 Precio total: $${totalPrice.toLocaleString()}<br>🧩 Partes: ${partsUsed.length ? partsUsed.join(", ") : "estándar"}<br>🎯 Drop estimado armadura: ${currentWeapon.baseDrop}% en cajas élite.`;
+    }
+    // gear list completo (tab noobs)
+    const fullGear = [
+        { name:"RPC Carrier",price:28500,drop:7.2,loc:"YBL-1"}, { name:"JPC 2.0",price:18400,drop:14.5,loc:"Ban Pa/Tiger"}, { name:"Ops-Core FAST",price:22300,drop:6.8,loc:"Midnight Sapphire"}, { name:"M4 SOPMOD",price:39800,drop:8.3,loc:"YBL-1"}, { name:"AK-12",price:17900,drop:22,loc:"Ban Pa"}, { name:"EOTech EXPS3",price:8700,drop:18.2,loc:"Tiger Bay"}, { name:"AFG Grip",price:4200,drop:22,loc:"Ban Pa"}, { name:"Raptor Suppressor",price:14300,drop:4.2,loc:"Midnight"}, { name:"PVS-31 NVG",price:32200,drop:2.9,loc:"Boss"}
+    ];
+    function renderFullGearTable() {
+        const cont = document.getElementById("fullGearTable");
+        if(cont) cont.innerHTML = fullGear.map(g => `<div style="background:#0c111a; border-radius:20px; padding: 10px;"><strong>${g.name}</strong> — 💰 $${g.price} — 🎲 ${g.drop}% — 📍 ${g.loc}</div>`).join('');
+    }
+    // MAPA INTERACTIVO - ZONAS Y LOOT
+    const zonesData = {
+        ybl: { name:"YBL-1 Bunker", faction:"Crimson/Mithras", loot:"M4 SOPMOD (8.3%), RPC (7.2%), munición M855A1 (27%)" },
+        tiger: { name:"Tiger Bay Marina", faction:"Lamang", loot:"Ops-Core FAST (6%), EOTech (18%), JPC 2.0 (10%)" },
+        banpa: { name:"Ban Pa", faction:"Mithras", loot:"AFG grip (22%), AK-12 (22%), chaleco JPC 2.0 (14.5%)" },
+        fort: { name:"Fort Narith", faction:"Crimson elite", loot:"DDM4 (3.5%), supresores, kits reparación" },
+        midnight: { name:"Midnight Sapphire", faction:"Enclave", loot:"NVGs (2.9%), GPNVG (1.2%), Raptor supresor (4.2%)" }
+    };
+    function renderMapZones() {
+        const zoneContainer = document.getElementById("zoneListContainer");
+        if(!zoneContainer) return;
+        zoneContainer.innerHTML = Object.keys(zonesData).map(zk => `<button class="zone-btn" data-zone="${zk}">${zonesData[zk].name}</button>`).join('');
+        document.querySelectorAll('.zone-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const zoneId = btn.getAttribute('data-zone');
+                const zone = zonesData[zoneId];
+                if(zone) {
+                    document.getElementById("zoneLootDetail").innerHTML = `<strong>📍 ${zone.name}</strong> | 🚩 Facción: ${zone.faction}<br>🎁 LOOT DISPONIBLE: ${zone.loot}<br>✨ Recomendación: farmear en horario nocturno.`;
+                    // resaltar visual simple en svg no necesario, pero añadimos clase
+                    document.querySelectorAll('.zone-btn').forEach(z => z.classList.remove('active-zone'));
+                    btn.classList.add('active-zone');
+                }
+            });
+        });
+    }
+    // build mode listeners
+    function initBuilderMode() {
+        document.querySelectorAll('.build-type').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.build-type').forEach(b => b.classList.remove('active-build'));
+                btn.classList.add('active-build');
+                currentBuildMode = btn.getAttribute('data-mode');
+                customSelectedParts = { optic: null, muzzle: null, grip: null, stock: null };
+                renderPartsBuilder();
+                renderBuildStats();
+            });
+        });
+    }
+    // TABS
+    function initTabs() {
+        const tabs = document.querySelectorAll('.tab-btn');
+        const panes = { welcome: document.getElementById('welcomePane'), builder: document.getElementById('builderPane'), map: document.getElementById('mapPane') };
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+                Object.values(panes).forEach(p => p.classList.remove('active-pane'));
+                if(target === 'welcome') panes.welcome.classList.add('active-pane');
+                if(target === 'builder') panes.builder.classList.add('active-pane');
+                if(target === 'map') panes.map.classList.add('active-pane');
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if(target === 'builder') { renderWeaponList(); renderPartsBuilder(); }
+                if(target === 'map') renderMapZones();
+            });
+        });
+        renderWeaponList(); renderPartsBuilder(); renderFullGearTable(); renderMapZones();
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        initTabs();
+        initBuilderMode();
+        renderFullGearTable();
+        renderMapZones();
+        // default builder stats
+        renderPartsBuilder();
+    });
+</script>
 </body>
 </html>
